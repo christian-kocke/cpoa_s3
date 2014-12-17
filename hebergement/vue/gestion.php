@@ -6,11 +6,11 @@
 	<meta name = "viewport" content = "width = device-width, initial-scale = 0.4, user-scalable = yes">
 	<link rel="stylesheet" href="css/foundation.css">
   	<link rel="stylesheet" href="css/app.css">
-  	<link rel="stylesheet" href="datepicker/css/datepicker.css">
+  	<link rel="stylesheet" href="css/foundation-datepicker.css">
 
   	<script src="js/vendor/modernizr.js"></script>
   	<script src="js/vendor/jquery.js"></script>
-  	<script src="datepicker/js/bootstrap-datepicker.js"></script>
+  	
 
 	<!-- DataTables CSS -->
 	<link rel="stylesheet" type="text/css" href="DataTables-1.10.4/media/css/jquery.dataTables.css">
@@ -32,61 +32,148 @@
 		</nav>
 	</header>
 	<div class="row">
-	<div class="large-12 columns">
-    </div>
-			<table id="table" class="display" cellspacing="0" width="100%">
-				        <thead>
-				            <tr>
-				                <th>Nom</th>
-				                <th>Role</th>
-				            </tr>
-				        </thead>
-				 
-				        <tfoot>
-				            <tr>
-				                <th>Nom</th>
-				                <th>Role</th>
-				            </tr>
-				        </tfoot>
-				 
-				        <tbody>
-				            <tr>
-				                <td>Tiger Nixon</td>
-				                <td>System Architect</td>
-				            </tr>
-				           	<tr>
-				                <td>Tiger Nixon</td>
-				                <td>System Architect</td>
-				            </tr>
-				            <tr>
-				                <td>Tiger Nixon</td>
-				                <td>System Architect</td>
-				            </tr>
-				            <tr>
-				                <td>Tiger Nixon</td>
-				                <td>System Architect</td>
-				            </tr>
-				            <tr>
-				                <td>Tiger Nixon</td>
-				                <td>System Architect</td>
-				            </tr>
-				            <tr>
-				                <td>Tiger Nixon</td>
-				                <td>System Architect</td>
-				            </tr>
-				            <tr>
-				                <td>Tiger Nixon</td>
-				                <td>System</td>
-				            </tr>
-				        </tbody>
-				    </table>
+		<div class="large-10 large-centered columns">
+    
+				<table id="table" class="display" cellspacing="0" width="100%">
+			        <thead>
+			            <tr>
+			                <th>Nom</th>
+			                <th>Role</th>
+			            </tr>
+			        </thead>
+			 
+			        <tfoot>
+			            <tr>
+			                <th>Nom</th>
+			                <th>Role</th>
+			            </tr>
+			        </tfoot>
+			 
+			        <tbody>
+			            <tr>
+			                <td>Tiger Nixon</td>
+			                <td>System Architect</td>
+			            </tr>
+			           	<tr>
+			                <td>Tiger Nixon</td>
+			                <td>System Architect</td>
+			            </tr>
+			            <tr>
+			                <td>Tiger Nixon</td>
+			                <td>System Architect</td>
+			            </tr>
+			            <tr>
+			                <td>Tiger Nixon</td>
+			                <td>System Architect</td>
+			            </tr>
+			            <tr>
+			                <td>Tiger Nixon</td>
+			                <td>System Architect</td>
+			            </tr>
+			            <tr>
+			                <td>Tiger Nixon</td>
+			                <td>System Architect</td>
+			            </tr>
+			            <tr>
+			                <td>Tiger Nixon</td>
+			                <td>System</td>
+			            </tr>
+			        </tbody>
+			    </table>
+			</div>
 		</div>
+		<div class="row">
+        <div class="large-10 large-centered column">
+   			
+            <form action="" data-abide> 
+               <table class="table">
+               	    <thead>
+               	        <tr>
+               	            <th>Check in:
+               	                <div>
+               	                	<input type="text" name="debut" class="fdatepicker" value="" id="dpd1" required pattern="([1][4-9]|[2][0-3])[- \/.](05)[- \/.](2015)">
+               	                	<small class="error" id="dp1Error">La date n'est pas valide</small>
+               	                </div>
+               	            </th>
+               	            <th>Check out:
+               	            	<div>
+               	            		<input type="text" name="fin" class="fdatepicker" value="" id="dpd2" required pattern="([1][3-9]|[2][0-4])[- \/.](05)[- \/.](2015)" data-abide-validator="isAllowed">
+               	            		<small class="error" id="dp2Error">La date n'est pas valide</small>
+               	            	</div>
+               	            </th>
+               	            <th>Type de logement :                     	
+               	        		<select name="logement" id="tlogement" required>
+               	        			<option value="hotel">Hôtel</option>
+               	        			<option value="villa">Villa</option>
+               	        		</select>
+               	            </th>
+               	            <th class="chambre">Type de chambre :                     	
+               	        		<select name="chambre">
+               	        			<option value="suite1">suite simple 1 personne</option>
+               	        			<option value="suite2">suite simple 2 personnes</option>
+               	        			<option value="suite1luxe">suite luxe 1 personne</option>
+               	        			<option value="suite2luxe">suite luxe 2 personnes</option>
+               	        		</select>
+               	            </th>
+               	        </tr>
+               	    </thead>
+               	</table> 
+           	</form>
+        </div>
+    </div>
 
 		<script src="js/vendor/fastclick.js"></script>
 		<script src="js/foundation.min.js"></script>
-	
+		<script src="js/foundation-datepicker.js"></script>
     	<script>
-    		$(document).foundation();
+    		$(document).foundation({
+			  abide : {
+			    live_validate : true,
+			    focus_on_invalid : true,
+			    error_labels: true, // labels with a for="inputId" will recieve an `error` class
+			    timeout : 1000,
+			    patterns : {
+			      alpha: /^[a-zA-Z]+$/,
+			        alpha_numeric : /^[a-zA-Z0-9]+$/,
+			        integer: /^[-+]?\d+$/,
+			        number: /^[-+]?[1-9]\d*$/,
+
+			        // amex, visa, diners
+			        card : /^(?:4[0-9]{12}(?:[0-9]{3})?|5[1-5][0-9]{14}|6(?:011|5[0-9][0-9])[0-9]{12}|3[47][0-9]{13}|3(?:0[0-5]|[68][0-9])[0-9]{11}|(?:2131|1800|35\d{3})\d{11})$/,
+			        cvv : /^([0-9]){3,4}$/,
+
+			        // http://www.whatwg.org/specs/web-apps/current-work/multipage/states-of-the-type-attribute.html#valid-e-mail-address
+			        email : /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/,
+
+			        url: /(https?|ftp|file|ssh):\/\/(((([a-zA-Z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:)*@)?(((\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5]))|((([a-zA-Z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-zA-Z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-zA-Z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-zA-Z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-zA-Z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-zA-Z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-zA-Z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-zA-Z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?)(:\d*)?)(\/((([a-zA-Z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)+(\/(([a-zA-Z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)*)*)?)?(\?((([a-zA-Z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|[\uE000-\uF8FF]|\/|\?)*)?(\#((([a-zA-Z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|\/|\?)*)?/,
+			        // abc.de
+			        domain: /^([a-zA-Z0-9]([a-zA-Z0-9\-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z]{2,6}$/,
+
+			        datetime: /([0-2][0-9]{3})\-([0-1][0-9])\-([0-3][0-9])T([0-5][0-9])\:([0-5][0-9])\:([0-5][0-9])(Z|([\-\+]([0-1][0-9])\:00))/,
+			        // YYYY-MM-DD
+			        date: /(?:19|20)[0-9]{2}-(?:(?:0[1-9]|1[0-2])-(?:0[1-9]|1[0-9]|2[0-9])|(?:(?!02)(?:0[1-9]|1[0-2])-(?:30))|(?:(?:0[13578]|1[02])-31))/,
+			        // HH:MM:SS
+			        time : /(0[0-9]|1[0-9]|2[0-3])(:[0-5][0-9]){2}/,
+			        dateISO: /\d{4}[\/\-]\d{1,2}[\/\-]\d{1,2}/,
+			        // MM/DD/YYYY
+			        month_day_year : /(0[1-9]|1[012])[- \/.](0[1-9]|[12][0-9]|3[01])[- \/.](19|20)\d\d/,
+
+			        // #FFF or #FFFFFF
+			        color: /^#?([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$/
+			    },
+			    validators: {
+			      diceRoll: function(el, required, parent) {
+			        var possibilities = [true, false];
+			        return possibilities[Math.round(Math.random())];
+			      },
+			      isAllowed: function(el, required, parent) {
+			        var a = $("#dpd1").val();
+			        var b = $(el).val();
+			        return  a < b;
+			      }
+			    }
+			  }
+			});
 			$(document).ready( function () {
 			    $('#table').DataTable({
 				    initComplete: function () {
@@ -94,7 +181,7 @@
 			 
 			            api.columns().indexes().flatten().each( function ( i ) {
 			                var column = api.column( 1 );
-			                var select = $('<label for="select">Filtrer par role</label><select id="select"><option value=""></option></select>')
+			                var select = $('<select id="select"><option value=""></option></select>')
 			                    .appendTo( $(column.footer()).empty() )
 			                    .on( 'change', function () {
 			                        var val = $.fn.dataTable.util.escapeRegex(
@@ -109,12 +196,83 @@
 			                column.data().unique().sort().each( function ( d, j ) {
 			                    select.append( '<option value="'+d+'">'+d+'</option>' )
 			                } );
+
 			            } );
 			        }	
 			    });
 			} );
 
 		</script>
+		<script type="text/javascript">
+            // When the document is ready
+            $(document).ready(function () {
+            	//select logement
+            	$("#tlogement").change(function() {
+            		if($(this).val() == "hotel"){
+            			$(".chambre").show();
+            		}else{
+            			$(".chambre").hide();
+            		}
+            	});
+                // datepicker 
+                $('#dpd1').fdatepicker({
+                    format : 'dd/mm/yyyy',
+                    startDate : '14/05/2015',
+                    endDate : '23/05/2015',
+                });
+                $('#dpd2').fdatepicker({
+                    format : 'dd/mm/yyyy',
+                    startDate : '15/05/2015',
+                    endDate : '24/05/2015',
+                });    
+
+                var nowTemp = new Date();
+                var now = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), nowTemp.getDate(), 0, 0, 0, 0);
+             
+                var checkin = $('#dpd1').fdatepicker({
+                    onRender: function (date) {
+                        return date.valueOf() < now.valueOf() ? 'disabled' : '';
+                    }
+                }).on('changeDate', function (ev) {
+                	$("#dpd2").fdatepicker('setStartDate', (ev.date.getDate()+1)+"/05/2015");
+                    if ((ev.date.valueOf() > checkout.date.valueOf())) {
+                        var newDate = new Date(ev.date)
+                        newDate.setDate(newDate.getDate() + 1);
+                        checkout.update(newDate);
+                    }
+                    checkin.hide();
+                    $('#dpd2')[0].focus();
+                }).data('datepicker');
+                var checkout = $('#dpd2').fdatepicker({
+                    onRender: function (date) {
+                        return date.valueOf() <= checkin.date.valueOf() ? 'disabled' : '';
+                    }
+                }).on('changeDate', function (ev) {
+                    checkout.hide();
+                }).data('datepicker');
+
+				
+            });
+        </script>
+        <script>
+        	$(document).ready(function() {
+			    var table = $('.display').DataTable();
+			 
+			    $('.display tbody').on( 'click', 'tr', function () {
+			        if ( $(this).hasClass('selected') ) {
+			            $(this).removeClass('selected');
+			        }
+			        else {
+			            table.$('tr.selected').removeClass('selected');
+			            $(this).addClass('selected');
+			        }
+			    } );
+			 
+			    $('#button').click( function () {
+			        table.row('.selected').remove().draw( false );
+			    } );
+			} );
+        </script>
 
 	<footer>
 
