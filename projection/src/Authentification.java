@@ -32,6 +32,7 @@ public class Authentification extends javax.swing.JFrame {
         jTextField1 = new javax.swing.JTextField();
         jPasswordField1 = new javax.swing.JPasswordField();
         close = new javax.swing.JLabel();
+        reduce = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
 
@@ -47,7 +48,7 @@ public class Authentification extends javax.swing.JFrame {
         jPasswordField1.setSelectionColor(new java.awt.Color(153, 153, 153));
         getContentPane().add(jPasswordField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(253, 425, 292, 24));
 
-        close.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/close.png"))); // NOI18N
+        close.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/fermer_default.png"))); // NOI18N
         close.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 closeMouseClicked(evt);
@@ -59,7 +60,21 @@ public class Authentification extends javax.swing.JFrame {
                 closeMouseExited(evt);
             }
         });
-        getContentPane().add(close, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 8, 14, 14));
+        getContentPane().add(close, new org.netbeans.lib.awtextra.AbsoluteConstraints(766, 1, 20, 20));
+
+        reduce.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/reduire_default.png"))); // NOI18N
+        reduce.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                reduceMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                reduceMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                reduceMouseExited(evt);
+            }
+        });
+        getContentPane().add(reduce, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 5, 20, 20));
 
         jLabel3.setIcon(new javax.swing.ImageIcon("C:\\Users\\Aïssa\\Pictures\\Cannes\\A_default.png")); // NOI18N
         jLabel3.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -109,14 +124,28 @@ public class Authentification extends javax.swing.JFrame {
     }//GEN-LAST:event_closeMouseClicked
 
     private void closeMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_closeMouseEntered
-        ImageIcon II = new ImageIcon(getClass().getResource("Images/close_hover.png"));
+        ImageIcon II = new ImageIcon(getClass().getResource("Images/fermer_hover.png"));
         close.setIcon(II);
     }//GEN-LAST:event_closeMouseEntered
 
     private void closeMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_closeMouseExited
-        ImageIcon II = new ImageIcon(getClass().getResource("Images/close.png"));
+        ImageIcon II = new ImageIcon(getClass().getResource("Images/fermer_default.png"));
         close.setIcon(II);
     }//GEN-LAST:event_closeMouseExited
+
+    private void reduceMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_reduceMouseClicked
+        this.setState(1);
+    }//GEN-LAST:event_reduceMouseClicked
+
+    private void reduceMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_reduceMouseEntered
+        ImageIcon II = new ImageIcon(getClass().getResource("Images/reduire_hover.png"));
+        reduce.setIcon(II);
+    }//GEN-LAST:event_reduceMouseEntered
+
+    private void reduceMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_reduceMouseExited
+        ImageIcon II = new ImageIcon(getClass().getResource("Images/reduire_default.png"));
+        reduce.setIcon(II);
+    }//GEN-LAST:event_reduceMouseExited
 
     /**
      * @param args the command line arguments
@@ -159,5 +188,6 @@ public class Authentification extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPasswordField jPasswordField1;
     private javax.swing.JTextField jTextField1;
+    private javax.swing.JLabel reduce;
     // End of variables declaration//GEN-END:variables
 }
