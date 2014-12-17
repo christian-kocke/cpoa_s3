@@ -9,6 +9,7 @@ package projection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import javax.swing.SwingUtilities;
 
 /**
  *
@@ -27,6 +28,7 @@ public class Projection {
         while(rslt.next()){
             System.out.println(rslt.getString("nom"));
         }
+        
     }
     
 }
