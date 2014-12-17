@@ -60,14 +60,14 @@
 			            </tr>
 			            <tr>
 			                <td>Tiger Nixon</td>
-			                <td>System Architect</td>
+			                <td>Executive</td>
 			            </tr>
 			            <tr>
 			                <td>Tiger Nixon</td>
 			                <td>System Architect</td>
 			            </tr>
 			            <tr>
-			                <td>Tiger Nixon</td>
+			                <td>Jean Claude</td>
 			                <td>System Architect</td>
 			            </tr>
 			            <tr>
@@ -120,6 +120,26 @@
                	</table> 
            	</form>
         </div>
+    </div>
+    <div class="row service">
+    	<div class="large-10 large-centered column">
+    		<dl class="sub-nav">
+			  <dt>Services :</dt>
+			  <dd class="active"><a href="#">Tous</a></dd>
+			  <dd><a href="#">Restauration</a></dd>
+			  <dd><a href="#">Loisirs</a></dd>
+			  <dd><a href="#">Sports</a></dd>
+			  <dd><a href="#">Bien être</a></dd>
+			</dl>
+    	</div>
+    </div>
+    <div class="row service">
+    	<div class="large-10 large-centered column">
+			hdkdjfkjdkfjkdjfkdjkfjkdjfkdjslfjlfsdfsdfs
+    	</div>
+    </div>
+    <div class="row">
+    	<div class="large-3 large-centered column"><input type="submit" value="Chercher" class="button"></div>
     </div>
 
 		<script src="js/vendor/fastclick.js"></script>
@@ -175,14 +195,33 @@
 			  }
 			});
 			$(document).ready( function () {
-			    $('#table').DataTable({
+			    $('.display').DataTable({
+			    	"dom" : 'l<"large-3 column column_filter right">frtip',
+			    	"oLanguage": {
+      					"sEmptyTable": "Aucun VIP doit être placer",
+      					"sSearch": "Recherche",
+      					"sLengthMenu": 'Afficher <select>'+
+					        '<option value="10">10</option>'+
+					        '<option value="20">20</option>'+
+					        '<option value="30">30</option>'+
+					        '<option value="40">40</option>'+
+					        '<option value="50">50</option>'+
+					        '<option value="-1">Tous</option>'+
+					        '</select> ',
+					    "sInfoFiltered": " - ( filtrer à partir de _MAX_ enregistrements )",
+					    "sInfo": "Un total de _TOTAL_ enregistrement(s) afficher (de _START_ à _END_)",
+      					"oPaginate": {
+					        "sNext": "Suivant",
+					        "sPrevious": "Précédent"
+					      }
+      				},
 				    initComplete: function () {
 			            var api = this.api();
 			 
 			            api.columns().indexes().flatten().each( function ( i ) {
 			                var column = api.column( 1 );
-			                var select = $('<select id="select"><option value=""></option></select>')
-			                    .appendTo( $(column.footer()).empty() )
+			                var select = $('<label for="select" class="filter_label">Rôle</label><select id="select"><option value=""></option></select>')
+			                    .appendTo( $(".column_filter").empty() )
 			                    .on( 'change', function () {
 			                        var val = $.fn.dataTable.util.escapeRegex(
 			                            $(this).val()
@@ -273,7 +312,14 @@
 			    } );
 			} );
         </script>
-
+		<script>
+        	$(document).ready(function() {
+        		$(".sub-nav dd").click(function(){
+        			$(this).addClass("active");
+        			$(this).siblings().toggleClass("active", false);
+        		});
+			});
+        </script>
 	<footer>
 
 	</footer>
