@@ -57,6 +57,9 @@ public class Creer extends javax.swing.JFrame {
 
         b2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/retour_default.png"))); // NOI18N
         b2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                b2MouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 b2MouseEntered(evt);
             }
@@ -169,6 +172,12 @@ public class Creer extends javax.swing.JFrame {
         ImageIcon II = new ImageIcon(getClass().getResource("Images/retour_default.png"));
         b2.setIcon(II);
     }//GEN-LAST:event_b2MouseExited
+
+    private void b2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_b2MouseClicked
+        Menu m = new Menu();
+        m.setVisible(rootPaneCheckingEnabled);
+        this.dispose();
+    }//GEN-LAST:event_b2MouseClicked
 
     /**
      * @param args the command line arguments

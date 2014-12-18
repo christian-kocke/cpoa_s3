@@ -1,0 +1,16 @@
+table thead tr th select{
+	font-weight: normal;
+}
+.row{
+	margin-top: 1em;
+}
+.service{
+	margin-top: 0;
+}
+.filter_label{
+	text-align: right;
+}
+.sub-nav{
+	background-color: #f2f2f2;
+	padding: 10px 10px 10px 0; 
+}
