@@ -42,7 +42,6 @@ public class Menu extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(791, 578));
         setUndecorated(true);
-        setPreferredSize(new java.awt.Dimension(791, 578));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         b1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/creer_default.png"))); // NOI18N
@@ -63,6 +62,9 @@ public class Menu extends javax.swing.JFrame {
         b2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/consulter_default.png"))); // NOI18N
         b2.setText("jLabel1");
         b2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                b2MouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 b2MouseEntered(evt);
             }
@@ -75,6 +77,9 @@ public class Menu extends javax.swing.JFrame {
         b3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/inserer_default.png"))); // NOI18N
         b3.setText("jLabel1");
         b3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                b3MouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 b3MouseEntered(evt);
             }
@@ -118,7 +123,7 @@ public class Menu extends javax.swing.JFrame {
                 reduceMouseExited(evt);
             }
         });
-        getContentPane().add(reduce, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 18, 20, 20));
+        getContentPane().add(reduce, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 10, 20, 20));
 
         close.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/fermer_default.png"))); // NOI18N
         close.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -132,10 +137,10 @@ public class Menu extends javax.swing.JFrame {
                 closeMouseExited(evt);
             }
         });
-        getContentPane().add(close, new org.netbeans.lib.awtextra.AbsoluteConstraints(766, 14, 20, 20));
+        getContentPane().add(close, new org.netbeans.lib.awtextra.AbsoluteConstraints(762, 5, 20, 20));
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Menu.png"))); // NOI18N
-        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 10, 790, 560));
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 790, 560));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -223,6 +228,18 @@ public class Menu extends javax.swing.JFrame {
         c.setVisible(rootPaneCheckingEnabled);
         this.dispose();
     }//GEN-LAST:event_b1MouseClicked
+
+    private void b2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_b2MouseClicked
+        Consulte_planning cp = new Consulte_planning();
+        cp.setVisible(rootPaneCheckingEnabled);
+        this.dispose();
+    }//GEN-LAST:event_b2MouseClicked
+
+    private void b3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_b3MouseClicked
+        ChoixF cf = new ChoixF();
+        cf.setVisible(rootPaneCheckingEnabled);
+        this.dispose();
+    }//GEN-LAST:event_b3MouseClicked
 
     /**
      * @param args the command line arguments

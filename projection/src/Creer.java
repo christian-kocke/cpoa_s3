@@ -67,7 +67,7 @@ public class Creer extends javax.swing.JFrame {
                 b2MouseExited(evt);
             }
         });
-        getContentPane().add(b2, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 388, 130, 30));
+        getContentPane().add(b2, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 370, 40, 50));
 
         jTextField1.setFont(new java.awt.Font("Titillium", 0, 14)); // NOI18N
         jTextField1.setText("Nom du planning");
@@ -99,7 +99,7 @@ public class Creer extends javax.swing.JFrame {
                 reduceMouseExited(evt);
             }
         });
-        getContentPane().add(reduce, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 18, 20, 20));
+        getContentPane().add(reduce, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 10, 20, 20));
 
         close.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/fermer_default.png"))); // NOI18N
         close.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -113,10 +113,10 @@ public class Creer extends javax.swing.JFrame {
                 closeMouseExited(evt);
             }
         });
-        getContentPane().add(close, new org.netbeans.lib.awtextra.AbsoluteConstraints(766, 14, 20, 20));
+        getContentPane().add(close, new org.netbeans.lib.awtextra.AbsoluteConstraints(762, 5, 20, 20));
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/CreerP.png"))); // NOI18N
-        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 10, 790, 560));
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 790, 560));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
