@@ -78,6 +78,9 @@ public class Authentification extends javax.swing.JFrame {
 
         jLabel3.setIcon(new javax.swing.ImageIcon("C:\\Users\\Aïssa\\Pictures\\Cannes\\A_default.png")); // NOI18N
         jLabel3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel3MouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 jLabel3MouseEntered(evt);
             }
@@ -146,6 +149,12 @@ public class Authentification extends javax.swing.JFrame {
         ImageIcon II = new ImageIcon(getClass().getResource("Images/reduire_default.png"));
         reduce.setIcon(II);
     }//GEN-LAST:event_reduceMouseExited
+
+    private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
+        Menu m = new Menu();
+        m.setVisible(rootPaneCheckingEnabled);
+        this.dispose();
+    }//GEN-LAST:event_jLabel3MouseClicked
 
     /**
      * @param args the command line arguments
