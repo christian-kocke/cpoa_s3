@@ -1,6 +1,7 @@
 
 
 import javax.swing.ImageIcon;
+import javax.swing.table.DefaultTableModel;
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -19,6 +20,10 @@ public class ChoixF extends javax.swing.JFrame {
     public ChoixF() {
         initComponents();
         this.setLocationRelativeTo(null);
+        jTable1.setShowVerticalLines(false);
+        jTable1.setColumnSelectionAllowed(false);
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        model.addRow(new Object[]{"Film  1", "Column 2"});
     }
 
     /**
@@ -93,16 +98,16 @@ public class ChoixF extends javax.swing.JFrame {
         getContentPane().add(b2, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 450, 170, 30));
 
         jLabel3.setText("Durée:");
-        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 113, -1, -1));
+        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 73, -1, -1));
 
         jComboBox2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "<15 min", "<30 min", "<45 min", "<60 min", "<90 min", ">90 min" }));
-        getContentPane().add(jComboBox2, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 110, -1, -1));
+        getContentPane().add(jComboBox2, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 70, -1, -1));
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Long Métrage", "Court Métrage", "Un Certain Regard", "Hors Compétition" }));
-        getContentPane().add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 110, -1, -1));
+        getContentPane().add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 70, -1, -1));
 
         jLabel4.setText("Catégorie:");
-        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 113, -1, -1));
+        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 73, -1, -1));
 
         jTextField1.setText("Rechercher un film");
         jTextField1.setToolTipText("");
@@ -111,42 +116,44 @@ public class ChoixF extends javax.swing.JFrame {
                 jTextField1ActionPerformed(evt);
             }
         });
-        getContentPane().add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 110, 150, -1));
+        getContentPane().add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 70, 170, -1));
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null}
+
             },
             new String [] {
-                "Titre", "Durée en minutes"
+                "Titre", "Durée (en min)"
             }
         ) {
             Class[] types = new Class [] {
                 java.lang.String.class, java.lang.Integer.class
             };
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
             }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
         });
-        jTable1.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_LAST_COLUMN);
+        jTable1.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
         jTable1.setColumnSelectionAllowed(true);
         jTable1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jScrollPane1.setViewportView(jTable1);
+        jTable1.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+        if (jTable1.getColumnModel().getColumnCount() > 0) {
+            jTable1.getColumnModel().getColumn(0).setResizable(false);
+            jTable1.getColumnModel().getColumn(0).setPreferredWidth(170);
+            jTable1.getColumnModel().getColumn(1).setResizable(false);
+            jTable1.getColumnModel().getColumn(1).setPreferredWidth(50);
+        }
 
-        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 160, 520, 240));
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 110, 320, 310));
 
         close.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/fermer_default.png"))); // NOI18N
         close.addMouseListener(new java.awt.event.MouseAdapter() {
