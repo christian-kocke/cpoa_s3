@@ -31,11 +31,18 @@
 					<h1><a href="">Hebergement</a></h1>
 				</li>
 			</ul>
+			<section class="top-bar-section">
+		    <!-- Right Nav Section -->
+			    <ul class="right">
+			      <li><a href="#">Logout</a></li>
+			    </ul>
+		  	</section>
 		</nav>
 	</header>
-	<div class="row step1">
-		<div class="large-10 large-centered columns">
-    
+	<div class="row">
+		<div class="row step1">
+			<div class="large-10 large-centered columns">
+		    
 				<table id="table" class="display" cellspacing="0" width="100%">
 			        <thead>
 			            <tr>
@@ -95,13 +102,13 @@
 		               <table class="table">
 		               	    <thead>
 		               	        <tr>
-		               	            <th>Check in:
+		               	            <th>Arrivé:
 		               	                <div>
 		               	                	<input type="text" name="debut" class="fdatepicker" value="" id="dpd1" required pattern="([1][4-9]|[2][0-3])[- \/.](05)[- \/.](2015)">
 		               	                	<small class="error" id="dp1Error">La date n'est pas valide</small>
 		               	                </div>
 		               	            </th>
-		               	            <th>Check out:
+		               	            <th>Départ:
 		               	            	<div>
 		               	            		<input type="text" name="fin" class="fdatepicker" value="" id="dpd2" required pattern="([1][3-9]|[2][0-4])[- \/.](05)[- \/.](2015)" data-abide-validator="isAllowed">
 		               	            		<small class="error" id="dp2Error">La date n'est pas valide</small>
@@ -146,12 +153,13 @@
 			    </div>
 			    	<div class="large-4 large-centered column">
 			    		<ul class="button-group">
-				  <li><button class="button previous" value="1"><i class="fa fa-angle-left fa-1x"> Précédent</i></button></li>
-				  <li><input type="submit" value="Chercher" class="button"></li>
-				</ul>
+						  <li><button class="button previous" value="1"><i class="fa fa-angle-left fa-1x"></i> Précédent</button></li>
+						  <li><input type="submit" value="Chercher" class="button"></li>
+						</ul>
 			    	</div>
 		    </div>
 		</div>
+	</div>
     	
 
 	<script src="js/vendor/fastclick.js"></script>

@@ -28,6 +28,19 @@
 					<h1><a href="">Hebergement</a></h1>
 				</li>
 			</ul>
+			<section class="top-bar-section">
+		    <!-- Right Nav Section -->
+			    <ul class="right">
+			      <li class="active"><a href="#">Right Button Active</a></li>
+			      <li class="has-dropdown">
+			        <a href="#">Right Button Dropdown</a>
+			        <ul class="dropdown">
+			          <li><a href="#">First link in dropdown</a></li>
+			          <li class="active"><a href="#">Active link in dropdown</a></li>
+			        </ul>
+			      </li>
+			    </ul>
+		  	</section>
 		</nav>
 	</header>
 	<body>

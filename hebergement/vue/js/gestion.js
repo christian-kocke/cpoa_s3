@@ -171,16 +171,16 @@ $(document).ready(function() {
 
 $(document).ready(function() {
 	$(".next").click(function(){
-		$(this).parent().parent(".row").hide("slide", {direction : "left"}, 650);
-		$(".step2").hide("slide", {direction : "right"}, function(){
+		$(this).parent().parent(".row").hide("slide", {direction : "left"}, 600);
+		$(".step2").hide("slide", {direction : "right"}, 50, function(){
 			$(".step2").css("visibility", "visible");
 		});
-		$(".step2").show("slide", {direction : "right"}, 800);
+		$(".step2").show("slide", {direction : "right"}, 550);
 	});
 	$(".previous").click(function(){
 		var current = parseInt($(this).val())+1;
-		$(".step"+current).hide("slide", {direction : "right"}, 500);
-		$(".step"+(current-1)).show("slide", {direction : "left"}, 800);
+		$(".step"+current).hide("slide", {direction : "right"}, 600);
+		$(".step"+(current-1)).show("slide", {direction : "left"}, 550);
 	})
 });
 
