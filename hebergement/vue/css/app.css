@@ -24,10 +24,10 @@ dl{
 	border-color: #d8d8d8;
 	border-width: 1px 1px 0 1px;
 }
-.step2{
+.step2, .step3{
 	visibility: hidden;
 }
-.step1, .step2{
+.step1, .step2, .step3{
 	position: absolute;
 	top: 5em;
 }

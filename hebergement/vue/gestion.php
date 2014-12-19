@@ -1,3 +1,7 @@
+<?php
+include_once '../core/init.php';
+
+?>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -137,13 +141,13 @@
 		    <div class="row">
 		    	<div class="large-10 large-centered column">
 		    		<dl class="sub-nav service">
-			  <dt>Services :</dt>
-			  <dd class="active"><a href="#">Tous</a></dd>
-			  <dd><a href="#">Restauration</a></dd>
-			  <dd><a href="#">Loisirs</a></dd>
-			  <dd><a href="#">Sports</a></dd>
-			  <dd><a href="#">Bien être</a></dd>
-			</dl>
+					  <dt>Services :</dt>
+					  <dd class="active"><a href="#">Tous</a></dd>
+					  <dd><a href="#">Restauration</a></dd>
+					  <dd><a href="#">Loisirs</a></dd>
+					  <dd><a href="#">Sports</a></dd>
+					  <dd><a href="#">Bien être</a></dd>
+					</dl>
 		    	</div> 
 			    <div class="large-10 large-centered column">
 			    	<div class="panel panel_service">
@@ -151,13 +155,78 @@
 			    	  		<p>It has an easy to override visual style, and is appropriately subdued.</p>
 			    	</div>
 			    </div>
-			    	<div class="large-4 large-centered column">
-			    		<ul class="button-group">
-						  <li><button class="button previous" value="1"><i class="fa fa-angle-left fa-1x"></i> Précédent</button></li>
-						  <li><input type="submit" value="Chercher" class="button"></li>
-						</ul>
-			    	</div>
+		    	<div class="large-4 large-centered column">
+		    		<ul class="button-group">
+					  <li><button class="button previous" value="1"><i class="fa fa-angle-left fa-1x"></i> Précédent</button></li>
+					  <li><button type="submit" class="button next" value="3">Suivant <i class="fa fa-angle-right fa-1x"></i></button></li>
+					</ul>
+		    	</div>
 		    </div>
+		</div>
+		<div class="row step3">
+			<div class="large-10 large-centered columns">
+				<table id="table2" class="display" cellspacing="0" width="100%">
+			        <thead>
+			            <tr>
+			                <th>Hebergement</th>
+			                <th>Type</th>
+			                <th>Profil</th>
+			            </tr>
+			        </thead>
+			 
+			        <tfoot>
+			            <tr>
+			                <th>Hebergement</th>
+			                <th>Type</th>
+			                <th>Profil</th>
+			            </tr>
+			        </tfoot>
+			 
+			        <tbody>
+			            <tr>
+			                <td>Tiger Nixon</td>
+			                <td>System Architect</td>
+			                <td>System Architect</td>
+			            </tr>
+			           	<tr>
+			                <td>Tiger Nixon</td>
+			                <td>System Architect</td>
+			                <td>System Architect</td>
+			            </tr>
+			            <tr>
+			                <td>Tiger Nixon</td>
+			                <td>System Architect</td>
+			                <td>System Architect</td>
+			            </tr>
+			            <tr>
+			                <td>Tiger Nixon</td>
+			                <td>System Architect</td>
+			                <td>System Architect</td>
+			            </tr>
+			            <tr>
+			                <td>Tiger Nixon</td>
+			                <td>System Architect</td>
+			                <td>System Architect</td>
+			            </tr>
+			            <tr>
+			                <td>Tiger Nixon</td>
+			                <td>System Architect</td>
+			                <td>System Architect</td>
+			            </tr>
+			            <tr>
+			                <td>Tiger Nixon</td>
+			                <td>System Architect</td>
+			                <td>System Architect</td>
+			            </tr>
+			        </tbody>
+				</table>
+			</div>
+			<div class="large-4 large-centered column">
+	    		<ul class="button-group">
+				  <li><button class="button previous" value="2"><i class="fa fa-angle-left fa-1x"></i> Précédent</button></li>
+				  <li><button type="submit" class="button" value="3">Placer</button></li>
+				</ul>
+	    	</div>
 		</div>
 	</div>
     	

@@ -66,7 +66,15 @@ $(document).ready( function () {
 		        "sNext": "Suivant",
 		        "sPrevious": "Précédent"
 		      }
-			},
+		},
+        "serverSide": true,
+        "processing": true,
+        "ajax" : {
+            "type": "POST",
+            "dataType": "json",
+            "url": "response.php",
+            "data": { action : "display", table : "1" }
+        },
 	    initComplete: function () {
             var api = this.api();
  
@@ -171,11 +179,12 @@ $(document).ready(function() {
 
 $(document).ready(function() {
 	$(".next").click(function(){
-		$(this).parent().parent(".row").hide("slide", {direction : "left"}, 600);
-		$(".step2").hide("slide", {direction : "right"}, 50, function(){
-			$(".step2").css("visibility", "visible");
+        var current = parseInt($(this).val())-1;
+		$(".step"+current).hide("slide", {direction : "left"}, 600);
+		$(".step"+(current+1)).hide("slide", {direction : "right"}, 50, function(){
+			$(".step"+(current+1)).css("visibility", "visible");
 		});
-		$(".step2").show("slide", {direction : "right"}, 550);
+		$(".step"+(current+1)).show("slide", {direction : "right"}, 550);
 	});
 	$(".previous").click(function(){
 		var current = parseInt($(this).val())+1;
