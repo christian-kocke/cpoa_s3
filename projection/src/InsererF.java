@@ -1,6 +1,9 @@
 
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
+import projection.DaoException;
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -30,6 +33,8 @@ public class InsererF extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLabel5 = new javax.swing.JLabel();
+        jComboBox3 = new javax.swing.JComboBox();
         b1 = new javax.swing.JLabel();
         b2 = new javax.swing.JLabel();
         dateChooserCombo1 = new datechooser.beans.DateChooserCombo();
@@ -49,6 +54,16 @@ public class InsererF extends javax.swing.JFrame {
         setUndecorated(true);
         setPreferredSize(new java.awt.Dimension(791, 578));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel5.setText("Sélectionner une salle pour la projection:");
+        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 113, -1, -1));
+
+        jComboBox3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox3ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jComboBox3, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 110, -1, -1));
 
         b1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/valider_default.png"))); // NOI18N
         b1.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -105,7 +120,7 @@ public class InsererF extends javax.swing.JFrame {
         getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 200, -1, 160));
 
         jLabel1.setText("Type de projection:");
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 123, -1, -1));
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 143, -1, -1));
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Officielle", "Presse", "Veille", "Lendemain" }));
         jComboBox1.addActionListener(new java.awt.event.ActionListener() {
@@ -113,7 +128,7 @@ public class InsererF extends javax.swing.JFrame {
                 jComboBox1ActionPerformed(evt);
             }
         });
-        getContentPane().add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 120, -1, -1));
+        getContentPane().add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 140, -1, -1));
 
         reduce.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/reduire2_default.png"))); // NOI18N
         reduce.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -182,7 +197,12 @@ public class InsererF extends javax.swing.JFrame {
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
     private void b2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_b2MouseClicked
-        ChoixF cf = new ChoixF();
+        ChoixF cf = null;
+        try {
+            cf = new ChoixF();
+        } catch (DaoException ex) {
+            Logger.getLogger(InsererF.class.getName()).log(Level.SEVERE, null, ex);
+        }
         cf.setVisible(rootPaneCheckingEnabled);
         this.dispose();
     }//GEN-LAST:event_b2MouseClicked
@@ -206,6 +226,10 @@ public class InsererF extends javax.swing.JFrame {
         ImageIcon II = new ImageIcon(getClass().getResource("Images/valider_default.png"));
         b1.setIcon(II);
     }//GEN-LAST:event_b1MouseExited
+
+    private void jComboBox3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBox3ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -249,10 +273,12 @@ public class InsererF extends javax.swing.JFrame {
     private datechooser.beans.DateChooserCombo dateChooserCombo1;
     private javax.swing.JComboBox jComboBox1;
     private javax.swing.JComboBox jComboBox2;
+    private javax.swing.JComboBox jComboBox3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JLabel reduce;

@@ -1,7 +1,14 @@
 
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.table.DefaultTableModel;
+import projection.DaoException;
+import projection.DaoFilm;
+import projection.Film;
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -16,14 +23,20 @@ public class ChoixF extends javax.swing.JFrame {
 
     /**
      * Creates new form ChoixF
+     * @throws projection.DaoException
      */
-    public ChoixF() {
+    public ChoixF() throws DaoException {
         initComponents();
         this.setLocationRelativeTo(null);
         jTable1.setShowVerticalLines(false);
         jTable1.setColumnSelectionAllowed(false);
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-        model.addRow(new Object[]{"Film  1", "Column 2"});
+        DaoFilm daof = DaoFilm.getDAO();
+        Collection <Film> col = new ArrayList();
+        col = daof.filmAPlacer();
+        for (Film f : col) {
+                model.addRow(new Object[]{f.getTitre(),f.getDuree()});
+            }
     }
 
     /**
@@ -35,6 +48,7 @@ public class ChoixF extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLabel1 = new javax.swing.JLabel();
         b1 = new javax.swing.JLabel();
         b3 = new javax.swing.JLabel();
         b2 = new javax.swing.JLabel();
@@ -54,6 +68,9 @@ public class ChoixF extends javax.swing.JFrame {
         setUndecorated(true);
         setPreferredSize(new java.awt.Dimension(791, 578));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel1.setText("Recherche:");
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(114, 74, -1, -1));
 
         b1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/placer_default.png"))); // NOI18N
         b1.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -98,25 +115,34 @@ public class ChoixF extends javax.swing.JFrame {
         getContentPane().add(b2, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 450, 170, 30));
 
         jLabel3.setText("Durée:");
-        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 73, -1, -1));
+        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 74, -1, -1));
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "<15 min", "<30 min", "<45 min", "<60 min", "<90 min", ">90 min" }));
-        getContentPane().add(jComboBox2, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 70, -1, -1));
+        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Toutes", "<15 min", "<30 min", "<45 min", "<60 min", "<90 min", ">90 min" }));
+        jComboBox2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox2ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jComboBox2, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 70, -1, -1));
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Long Métrage", "Court Métrage", "Un Certain Regard", "Hors Compétition" }));
-        getContentPane().add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 70, -1, -1));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Toutes", "Long Métrage", "Court Métrage", "Un Certain Regard", "Hors Compétition" }));
+        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox1ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 70, -1, -1));
 
         jLabel4.setText("Catégorie:");
-        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 73, -1, -1));
+        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 74, -1, -1));
 
-        jTextField1.setText("Rechercher un film");
         jTextField1.setToolTipText("");
         jTextField1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField1ActionPerformed(evt);
             }
         });
-        getContentPane().add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 70, 170, -1));
+        getContentPane().add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 70, 170, -1));
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -218,7 +244,50 @@ public class ChoixF extends javax.swing.JFrame {
     }//GEN-LAST:event_reduceMouseExited
 
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
-        // TODO add your handling code here:
+        String concours;
+        concours = (String)this.jComboBox1.getSelectedItem();
+        
+        String duree = (String)this.jComboBox2.getSelectedItem();
+        if (!duree.equals("Toutes")){
+            duree = duree.substring(0, duree.length() -4); //Enleve le " min" dans la cellule sélectionnée
+        }
+        else {
+            duree=">0";
+        }
+        
+        String recherche = this.jTextField1.getText().toUpperCase();
+        //On transforme le texte tapé en majuscule
+        if (recherche.equals("")) {
+            recherche=null;
+        }
+        
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        int n = model.getRowCount();
+            for (int i=n-1 ; i>=0 ; --i) {model.removeRow(i);}
+        DaoFilm daof;
+        try {
+                daof = DaoFilm.getDAO();
+                Collection<Film> col;
+                col = new ArrayList();
+                //Récupère collection de film selon les critères de durée et de concours
+                col = daof.filmAPlacerParCategorie(concours, duree);
+
+                //Ajoute dans la JTable les lignes d'après les critères de recherche
+                for (Film f : col) {
+                    if (recherche==null) {
+                        model.addRow(new Object[]{f.getTitre(),f.getDuree()});
+                    }
+                    else {
+                        if(f.getTitre().contains(recherche)) {
+                            model.addRow(new Object[]{f.getTitre(),f.getDuree()});
+                        }
+                    }
+                }
+            } 
+
+            catch (DaoException ex) {
+                Logger.getLogger(ChoixF.class.getName()).log(Level.SEVERE, null, ex);
+            }
     }//GEN-LAST:event_jTextField1ActionPerformed
 
     private void b1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_b1MouseEntered
@@ -264,9 +333,142 @@ public class ChoixF extends javax.swing.JFrame {
     }//GEN-LAST:event_b3MouseExited
 
     private void b3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_b3MouseClicked
-        ProjectionP p = new ProjectionP();
-        p.setVisible(rootPaneCheckingEnabled);
+        ProjectionP p = null;
+        try {
+            int ligne = jTable1.getSelectedRow();
+            String film_choisi = jTable1.getValueAt(ligne, 0).toString();
+            p = new ProjectionP(film_choisi);
+            //Transmet le nom du film sélectionné
+            p.setVisible(true);
+        } 
+        catch (DaoException ex) {
+            Logger.getLogger(ChoixF.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_b3MouseClicked
+
+    //Même méthode que pour jTextField1
+    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+        
+        String concours;
+        concours = (String)this.jComboBox1.getSelectedItem();
+        String recherche = this.jTextField1.getText().toUpperCase();
+        //On transforme le texte tapé en majuscule
+        if (recherche.equals("")) {
+            recherche=null;
+        }
+        String duree = (String)this.jComboBox2.getSelectedItem();
+        if (!duree.equals("Toutes")){
+            duree = duree.substring(0, duree.length() -4);
+        }
+        else {
+            duree=">0";
+        }
+        
+        if(concours.equals("Toutes")) { 
+            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+            int n = model.getRowCount();
+            for (int i=n-1 ; i>=0 ; --i) {model.removeRow(i);}
+            DaoFilm daof;
+            try {
+                daof = DaoFilm.getDAO();
+                Collection<Film> col;
+                col = new ArrayList();
+                col = daof.filmAPlacer();
+
+                for (Film f : col) {
+                    if (recherche==null) {
+                        model.addRow(new Object[]{f.getTitre(),f.getDuree()});
+                    }
+                    else {
+                        if(f.getTitre().contains(recherche)) {
+                            model.addRow(new Object[]{f.getTitre(),f.getDuree()});
+                        }
+                    }
+                }
+            } 
+
+            catch (DaoException ex) {
+                Logger.getLogger(ChoixF.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        
+        else {
+            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+            int n = model.getRowCount();
+            for (int i=n-1 ; i>=0 ; --i) {model.removeRow(i);}
+            DaoFilm daof;
+            try {
+                daof = DaoFilm.getDAO();
+                Collection<Film> col;
+                col = new ArrayList();
+                col = daof.filmAPlacerParCategorie(concours, duree);
+
+                for (Film f : col) {
+                    if(recherche==null){
+                        model.addRow(new Object[]{f.getTitre(),f.getDuree()});
+                    }
+                    else {
+                        if(f.getTitre().contains(recherche)) {
+                            model.addRow(new Object[]{f.getTitre(),f.getDuree()});
+                        }
+                    }
+                }
+            } 
+
+            catch (DaoException ex) {
+                Logger.getLogger(ChoixF.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+        }
+    }//GEN-LAST:event_jComboBox1ActionPerformed
+
+    //Même méthode que pour jTextField1
+    private void jComboBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox2ActionPerformed
+        String concours;
+        concours = (String)this.jComboBox1.getSelectedItem();
+        
+        String recherche = this.jTextField1.getText().toUpperCase();
+        //On transforme le texte tapé en majuscule
+        if (recherche.equals("")) {
+            recherche=null;
+        }
+        
+        String duree = (String)this.jComboBox2.getSelectedItem();
+        if (!duree.equals("Toutes")){
+            duree = duree.substring(0, duree.length() -4);
+        }
+        else {
+            duree=">0";
+        }
+        
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        int n = model.getRowCount();
+        for (int i=n-1 ; i>=0 ; --i) {model.removeRow(i);}
+        DaoFilm daof;
+        try {
+            daof = DaoFilm.getDAO();
+            Collection<Film> col;
+            col = new ArrayList();
+            col = daof.filmAPlacerParCategorie(concours, duree);
+
+           for (Film f : col) {
+                    if(recherche==null){
+                        model.addRow(new Object[]{f.getTitre(),f.getDuree()});
+                    }
+                    else {
+                        if(f.getTitre().contains(recherche)) {
+                            model.addRow(new Object[]{f.getTitre(),f.getDuree()});
+                        }
+                    }
+                }
+        } 
+
+        catch (DaoException ex) {
+            Logger.getLogger(ChoixF.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+
+    }//GEN-LAST:event_jComboBox2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -297,8 +499,13 @@ public class ChoixF extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
-                new ChoixF().setVisible(true);
+                try {
+                    new ChoixF().setVisible(true);
+                } catch (DaoException ex) {
+                    Logger.getLogger(ChoixF.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }
@@ -310,6 +517,7 @@ public class ChoixF extends javax.swing.JFrame {
     private javax.swing.JLabel close;
     private javax.swing.JComboBox jComboBox1;
     private javax.swing.JComboBox jComboBox2;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;

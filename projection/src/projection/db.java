@@ -24,7 +24,7 @@ import java.util.logging.Logger;
  *
  * @author Christian
  */
-public class db {
+public class db  {
     private static final db instance = new db();
     private Connection connection = null;
     
@@ -54,7 +54,7 @@ public class db {
                 String utilisateur = props.getProperty("utilisateur");
                 String mdp = props.getProperty("mdp");
                 connection = DriverManager.getConnection(
-                                driver, utilisateur,mdp);
+                                url, utilisateur,mdp);
 
         } catch (SQLException e) {
                

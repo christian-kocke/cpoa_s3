@@ -3,13 +3,18 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Aïssa/Documents/cpoa_s3/projection/src/ProjectionP.java</file>
-            <file>file:/C:/Users/Aïssa/Documents/cpoa_s3/projection/src/InsererF.java</file>
-            <file>file:/C:/Users/Aïssa/Documents/cpoa_s3/projection/src/ChoixF.java</file>
             <file>file:/C:/Users/Aïssa/Documents/cpoa_s3/projection/src/Authentification.java</file>
+            <file>file:/C:/Users/Aïssa/Documents/cpoa_s3/projection/src/Creer.java</file>
             <file>file:/C:/Users/Aïssa/Documents/cpoa_s3/projection/src/Menu.java</file>
             <file>file:/C:/Users/Aïssa/Documents/cpoa_s3/projection/src/Consulte_planning.java</file>
-            <file>file:/C:/Users/Aïssa/Documents/cpoa_s3/projection/src/Creer.java</file>
+            <file>file:/C:/Users/Aïssa/Documents/cpoa_s3/projection/src/ChoixF.java</file>
+            <file>file:/C:/Users/Aïssa/Documents/cpoa_s3/projection/src/ProjectionP.java</file>
+            <file>file:/C:/Users/Aïssa/Documents/cpoa_s3/projection/src/InsererF.java</file>
+            <file>file:/C:/Users/Aïssa/Documents/cpoa_s3/projection/src/projection/Film.java</file>
+            <file>file:/C:/Users/Aïssa/Documents/cpoa_s3/projection/src/projection/db.java</file>
+            <file>file:/C:/Users/Aïssa/Documents/cpoa_s3/projection/src/projection/DaoFilm.java</file>
+            <file>file:/C:/Users/Aïssa/Documents/cpoa_s3/projection/src/projection/DaoException.java</file>
+            <file>file:/C:/Users/Aïssa/Documents/cpoa_s3/projection/src/projection/ConfigConnection.java</file>
         </group>
     </open-files>
 </project-private>

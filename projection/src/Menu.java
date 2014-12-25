@@ -1,6 +1,9 @@
 
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
+import projection.DaoException;
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -236,7 +239,12 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_b2MouseClicked
 
     private void b3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_b3MouseClicked
-        ChoixF cf = new ChoixF();
+        ChoixF cf = null;
+        try {
+            cf = new ChoixF();
+        } catch (DaoException ex) {
+            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+        }
         cf.setVisible(rootPaneCheckingEnabled);
         this.dispose();
     }//GEN-LAST:event_b3MouseClicked

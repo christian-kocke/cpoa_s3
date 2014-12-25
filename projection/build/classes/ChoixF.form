@@ -32,6 +32,16 @@
     <Property name="useNullLayout" type="boolean" value="false"/>
   </Layout>
   <SubComponents>
+    <Component class="javax.swing.JLabel" name="jLabel1">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Recherche:"/>
+      </Properties>
+      <Constraints>
+        <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+          <AbsoluteConstraints x="114" y="74" width="-1" height="-1"/>
+        </Constraint>
+      </Constraints>
+    </Component>
     <Component class="javax.swing.JLabel" name="b1">
       <Properties>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
@@ -89,43 +99,51 @@
       </Properties>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-          <AbsoluteConstraints x="340" y="73" width="-1" height="-1"/>
+          <AbsoluteConstraints x="380" y="74" width="-1" height="-1"/>
         </Constraint>
       </Constraints>
     </Component>
     <Component class="javax.swing.JComboBox" name="jComboBox2">
       <Properties>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-          <StringArray count="6">
-            <StringItem index="0" value="&lt;15 min"/>
-            <StringItem index="1" value="&lt;30 min"/>
-            <StringItem index="2" value="&lt;45 min"/>
-            <StringItem index="3" value="&lt;60 min"/>
-            <StringItem index="4" value="&lt;90 min"/>
-            <StringItem index="5" value="&gt;90 min"/>
+          <StringArray count="7">
+            <StringItem index="0" value="Toutes"/>
+            <StringItem index="1" value="&lt;15 min"/>
+            <StringItem index="2" value="&lt;30 min"/>
+            <StringItem index="3" value="&lt;45 min"/>
+            <StringItem index="4" value="&lt;60 min"/>
+            <StringItem index="5" value="&lt;90 min"/>
+            <StringItem index="6" value="&gt;90 min"/>
           </StringArray>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jComboBox2ActionPerformed"/>
+      </Events>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-          <AbsoluteConstraints x="380" y="70" width="-1" height="-1"/>
+          <AbsoluteConstraints x="420" y="70" width="-1" height="-1"/>
         </Constraint>
       </Constraints>
     </Component>
     <Component class="javax.swing.JComboBox" name="jComboBox1">
       <Properties>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-          <StringArray count="4">
-            <StringItem index="0" value="Long M&#xe9;trage"/>
-            <StringItem index="1" value="Court M&#xe9;trage"/>
-            <StringItem index="2" value="Un Certain Regard"/>
-            <StringItem index="3" value="Hors Comp&#xe9;tition"/>
+          <StringArray count="5">
+            <StringItem index="0" value="Toutes"/>
+            <StringItem index="1" value="Long M&#xe9;trage"/>
+            <StringItem index="2" value="Court M&#xe9;trage"/>
+            <StringItem index="3" value="Un Certain Regard"/>
+            <StringItem index="4" value="Hors Comp&#xe9;tition"/>
           </StringArray>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jComboBox1ActionPerformed"/>
+      </Events>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-          <AbsoluteConstraints x="540" y="70" width="-1" height="-1"/>
+          <AbsoluteConstraints x="580" y="70" width="-1" height="-1"/>
         </Constraint>
       </Constraints>
     </Component>
@@ -135,13 +153,12 @@
       </Properties>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-          <AbsoluteConstraints x="480" y="73" width="-1" height="-1"/>
+          <AbsoluteConstraints x="520" y="74" width="-1" height="-1"/>
         </Constraint>
       </Constraints>
     </Component>
     <Component class="javax.swing.JTextField" name="jTextField1">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Rechercher un film"/>
         <Property name="toolTipText" type="java.lang.String" value=""/>
       </Properties>
       <Events>
@@ -149,7 +166,7 @@
       </Events>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-          <AbsoluteConstraints x="130" y="70" width="170" height="-1"/>
+          <AbsoluteConstraints x="180" y="70" width="170" height="-1"/>
         </Constraint>
       </Constraints>
     </Component>
