@@ -1,9 +1,27 @@
 
 
+import java.awt.Dimension;
+import java.awt.List;
+import java.sql.Date;
+import java.sql.Time;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collection;
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
+import javax.swing.table.DefaultTableModel;
+import projection.Creneau;
+import projection.DaoCreneau;
 import projection.DaoException;
+import projection.DaoFilm;
+import projection.DaoPlanning;
+import projection.DaoProjection;
+import projection.DaoSalle;
+import projection.Projection;
+import projection.Salle;
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -16,12 +34,65 @@ import projection.DaoException;
  */
 public class InsererF extends javax.swing.JFrame {
 
+        static final long ONE_MINUTE_IN_MILLIS=60000;//millisecs
+        public String titre;
+        public int duree;
     /**
      * Creates new form InsererF
+     * @param titre
+     * @param duree
+     * @throws projection.DaoException
      */
-    public InsererF() {
+    public InsererF(String titre, int duree) throws DaoException {
+        this.titre=titre;
+        this.duree=duree;
         initComponents();
         this.setLocationRelativeTo(null);
+        jLabel6.setText("Film sélectionné: " + titre);
+        jLabel7.setText("Pour cette date, la limite de film de ce concours a été atteinte");
+        jLabel7.setVisible(false);
+        
+        DaoProjection daoPr = DaoProjection.getDAO();
+        Collection<Projection> col2;
+        col2= new ArrayList();
+        
+        //Retire le choix de projection officiel si elle est déja programmée
+        col2=daoPr.ProjectionPrevues(titre);
+        for (Projection p : col2) {
+            if(p.getId_type()==1) {
+                jComboBox1.removeItemAt(0);
+            }
+        }
+        
+        DaoSalle daoS = DaoSalle.getDAO();
+        Collection<Salle> col;
+        col = new ArrayList();
+        col=daoS.salleParType(titre);
+        //Insertion des salles possibles pour le film sélectionné
+        for (Salle s : col) {
+            this.jComboBox3.addItem(s.getNom());
+        }
+        
+        Collection<String> col3;
+        col3 = new ArrayList();
+        DaoProjection daoP = DaoProjection.getDAO();
+        col3=daoP.TypeDeProjectionPrevue(titre);
+        
+        //Ne laisse que le type de projections possibles
+        if(col3.contains("Officielle")) {
+            jComboBox1.removeItem("Officielle");
+        }
+        if(col3.contains("Lendemain")) {
+            jComboBox1.removeItem("Lendemain");
+        }
+        if(col3.contains("Veille")) {
+            jComboBox1.removeItem("Veille");
+        }
+        
+    }
+
+    private InsererF() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     /**
@@ -36,8 +107,10 @@ public class InsererF extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         jComboBox3 = new javax.swing.JComboBox();
         b1 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
         b2 = new javax.swing.JLabel();
         dateChooserCombo1 = new datechooser.beans.DateChooserCombo();
+        jLabel7 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jComboBox2 = new javax.swing.JComboBox();
@@ -56,17 +129,20 @@ public class InsererF extends javax.swing.JFrame {
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel5.setText("Sélectionner une salle pour la projection:");
-        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 113, -1, -1));
+        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 150, -1, -1));
 
         jComboBox3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBox3ActionPerformed(evt);
             }
         });
-        getContentPane().add(jComboBox3, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 110, -1, -1));
+        getContentPane().add(jComboBox3, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 146, -1, -1));
 
         b1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/valider_default.png"))); // NOI18N
         b1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                b1MouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 b1MouseEntered(evt);
             }
@@ -75,6 +151,9 @@ public class InsererF extends javax.swing.JFrame {
             }
         });
         getContentPane().add(b1, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 400, 160, 50));
+
+        jLabel6.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 90, 300, -1));
 
         b2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/retour_default.png"))); // NOI18N
         b2.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -89,79 +168,140 @@ public class InsererF extends javax.swing.JFrame {
             }
         });
         getContentPane().add(b2, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 400, 40, 50));
-        getContentPane().add(dateChooserCombo1, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 170, 90, -1));
 
-        jLabel3.setText("Préférence de date:");
-        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 173, -1, -1));
+        dateChooserCombo1.setCurrentView(new datechooser.view.appearance.AppearancesList("Contrast",
+            new datechooser.view.appearance.ViewAppearance("custom",
+                new datechooser.view.appearance.swing.SwingCellAppearance(new java.awt.Font("Tahoma", java.awt.Font.PLAIN, 11),
+                    new java.awt.Color(0, 0, 0),
+                    new java.awt.Color(0, 0, 255),
+                    false,
+                    true,
+                    new datechooser.view.appearance.swing.ButtonPainter()),
+                new datechooser.view.appearance.swing.SwingCellAppearance(new java.awt.Font("Tahoma", java.awt.Font.PLAIN, 11),
+                    new java.awt.Color(0, 0, 0),
+                    new java.awt.Color(0, 0, 255),
+                    true,
+                    true,
+                    new datechooser.view.appearance.swing.ButtonPainter()),
+                new datechooser.view.appearance.swing.SwingCellAppearance(new java.awt.Font("Tahoma", java.awt.Font.PLAIN, 11),
+                    new java.awt.Color(0, 0, 255),
+                    new java.awt.Color(0, 0, 255),
+                    false,
+                    true,
+                    new datechooser.view.appearance.swing.ButtonPainter()),
+                new datechooser.view.appearance.swing.SwingCellAppearance(new java.awt.Font("Tahoma", java.awt.Font.PLAIN, 11),
+                    new java.awt.Color(128, 128, 128),
+                    new java.awt.Color(0, 0, 255),
+                    false,
+                    true,
+                    new datechooser.view.appearance.swing.LabelPainter()),
+                new datechooser.view.appearance.swing.SwingCellAppearance(new java.awt.Font("Tahoma", java.awt.Font.PLAIN, 11),
+                    new java.awt.Color(0, 0, 0),
+                    new java.awt.Color(0, 0, 255),
+                    false,
+                    true,
+                    new datechooser.view.appearance.swing.LabelPainter()),
+                new datechooser.view.appearance.swing.SwingCellAppearance(new java.awt.Font("Tahoma", java.awt.Font.PLAIN, 11),
+                    new java.awt.Color(0, 0, 0),
+                    new java.awt.Color(255, 0, 0),
+                    false,
+                    false,
+                    new datechooser.view.appearance.swing.ButtonPainter()),
+                (datechooser.view.BackRenderer)null,
+                false,
+                true)));
+    dateChooserCombo1.setNothingAllowed(false);
+    try {
+        dateChooserCombo1.setDefaultPeriods(new datechooser.model.multiple.PeriodSet(new datechooser.model.multiple.Period(new java.util.GregorianCalendar(2015, 4, 13),
+            new java.util.GregorianCalendar(2015, 4, 13))));
+} catch (datechooser.model.exeptions.IncompatibleDataExeption e1) {
+    e1.printStackTrace();
+    }
+    dateChooserCombo1.setMaxDate(new java.util.GregorianCalendar(2015, 4, 24));
+    dateChooserCombo1.setMinDate(new java.util.GregorianCalendar(2015, 4, 13));
+    dateChooserCombo1.addCommitListener(new datechooser.events.CommitListener() {
+        public void onCommit(datechooser.events.CommitEvent evt) {
+            dateChooserCombo1actionPerformed(evt);
+        }
+    });
+    getContentPane().add(dateChooserCombo1, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 244, 90, -1));
 
-        jLabel4.setText("Préférence de créneau:");
-        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 173, -1, -1));
+    jLabel7.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+    jLabel7.setForeground(new java.awt.Color(255, 51, 51));
+    getContentPane().add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 120, 300, -1));
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Matinée", "Après midi", "Soirée" }));
-        getContentPane().add(jComboBox2, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 170, -1, -1));
+    jLabel3.setText("Préférence de date:");
+    getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 250, -1, -1));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null}
-            },
-            new String [] {
-                "Jour", "Créneau"
-            }
-        ));
-        jScrollPane1.setViewportView(jTable1);
+    jLabel4.setText("Préférence de créneau:");
+    getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 300, -1, -1));
 
-        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 200, -1, 160));
+    jComboBox2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Aucune", "Matinée", "Après-midi", "Soirée" }));
+    jComboBox2.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            jComboBox2ActionPerformed(evt);
+        }
+    });
+    getContentPane().add(jComboBox2, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 296, -1, -1));
 
-        jLabel1.setText("Type de projection:");
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 143, -1, -1));
+    jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        new Object [][] {
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Officielle", "Presse", "Veille", "Lendemain" }));
-        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox1ActionPerformed(evt);
-            }
-        });
-        getContentPane().add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 140, -1, -1));
+        },
+        new String [] {
+            "Créneau(x) disponible(s)"
+        }
+    ));
+    jScrollPane1.setViewportView(jTable1);
+    if (jTable1.getColumnModel().getColumnCount() > 0) {
+        jTable1.getColumnModel().getColumn(0).setHeaderValue("Créneau(x) disponible(s)");
+    }
 
-        reduce.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/reduire2_default.png"))); // NOI18N
-        reduce.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                reduceMouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                reduceMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                reduceMouseExited(evt);
-            }
-        });
-        getContentPane().add(reduce, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 10, 20, 20));
+    getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 80, 200, 270));
 
-        close.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/fermer_default.png"))); // NOI18N
-        close.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                closeMouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                closeMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                closeMouseExited(evt);
-            }
-        });
-        getContentPane().add(close, new org.netbeans.lib.awtextra.AbsoluteConstraints(762, 5, 20, 20));
+    jLabel1.setText("Type de projection:");
+    getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 200, -1, -1));
 
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/InsererF.png"))); // NOI18N
-        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 790, 560));
+    jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Officielle", "Presse", "Veille", "Lendemain" }));
+    jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            jComboBox1ActionPerformed(evt);
+        }
+    });
+    getContentPane().add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 194, -1, -1));
 
-        pack();
+    reduce.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/reduire2_default.png"))); // NOI18N
+    reduce.addMouseListener(new java.awt.event.MouseAdapter() {
+        public void mouseClicked(java.awt.event.MouseEvent evt) {
+            reduceMouseClicked(evt);
+        }
+        public void mouseEntered(java.awt.event.MouseEvent evt) {
+            reduceMouseEntered(evt);
+        }
+        public void mouseExited(java.awt.event.MouseEvent evt) {
+            reduceMouseExited(evt);
+        }
+    });
+    getContentPane().add(reduce, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 10, 20, 20));
+
+    close.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/fermer_default.png"))); // NOI18N
+    close.addMouseListener(new java.awt.event.MouseAdapter() {
+        public void mouseClicked(java.awt.event.MouseEvent evt) {
+            closeMouseClicked(evt);
+        }
+        public void mouseEntered(java.awt.event.MouseEvent evt) {
+            closeMouseEntered(evt);
+        }
+        public void mouseExited(java.awt.event.MouseEvent evt) {
+            closeMouseExited(evt);
+        }
+    });
+    getContentPane().add(close, new org.netbeans.lib.awtextra.AbsoluteConstraints(762, 5, 20, 20));
+
+    jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/InsererF.png"))); // NOI18N
+    getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 790, 560));
+
+    pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void reduceMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_reduceMouseClicked
@@ -195,7 +335,7 @@ public class InsererF extends javax.swing.JFrame {
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jComboBox1ActionPerformed
-
+ 
     private void b2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_b2MouseClicked
         ChoixF cf = null;
         try {
@@ -228,12 +368,313 @@ public class InsererF extends javax.swing.JFrame {
     }//GEN-LAST:event_b1MouseExited
 
     private void jComboBox3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox3ActionPerformed
-        // TODO add your handling code here:
+        //Récuperer la date sélectionner et proposer des créneaux selon celle-ci
+        String date = dateChooserCombo1.getText();
+        String mois = date.substring(3, 5);
+        String jour = date.substring(0,2);
+        String date_sql= "2015-" +mois+ "-" +jour;
+        //Proposer dans créneau selon la salle,la date sélectionnée et la durée du film
+        
+        try {
+            DaoProjection daoP = DaoProjection.getDAO();
+            Collection <Projection> col;
+            col = new ArrayList();
+            col = daoP.ProjectionsDuJour(date_sql, jComboBox3.getSelectedItem().toString(), jComboBox2.getSelectedItem().toString());
+            afficherCreneaux(date_sql,col,jComboBox2.getSelectedItem().toString());
+        } catch (DaoException ex) {
+            Logger.getLogger(InsererF.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jComboBox3ActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
+    private void dateChooserCombo1actionPerformed(datechooser.events.CommitEvent evt) {//GEN-FIRST:event_dateChooserCombo1actionPerformed
+        //Récuperer la date sélectionner et proposer des créneaux selon celle-ci
+        String date = dateChooserCombo1.getText();
+        String mois = date.substring(3, 5);
+        String jour = date.substring(0,2);
+        String date_sql= "2015-" +mois+ "-" +jour;
+        //Proposer dans créneau selon la salle,la date sélectionnée et la durée du film
+        
+        try {
+            DaoProjection daoP = DaoProjection.getDAO();
+            Collection <Projection> col;
+            col = new ArrayList();
+            col = daoP.ProjectionsDuJour(date_sql, jComboBox3.getSelectedItem().toString(), jComboBox2.getSelectedItem().toString());
+            afficherCreneaux(date_sql,col,jComboBox2.getSelectedItem().toString());
+        } catch (DaoException ex) {
+            Logger.getLogger(InsererF.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }//GEN-LAST:event_dateChooserCombo1actionPerformed
+
+    private void jComboBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox2ActionPerformed
+        
+        
+        //Récuperer la date sélectionner et proposer des créneaux selon celle-ci
+        String date = dateChooserCombo1.getText();
+        String mois = date.substring(3, 5);
+        String jour = date.substring(0,2);
+        String date_sql= "2015-" +mois+ "-" +jour;
+        //Proposer dans créneau selon la salle,la date sélectionnée et la durée du film
+        
+        try {
+            DaoProjection daoP = DaoProjection.getDAO();
+            Collection <Projection> col;
+            col = new ArrayList();
+            col = daoP.ProjectionsDuJour(date_sql, jComboBox3.getSelectedItem().toString(), jComboBox2.getSelectedItem().toString());
+            afficherCreneaux(date_sql,col,jComboBox2.getSelectedItem().toString());
+        } catch (DaoException ex) {
+            Logger.getLogger(InsererF.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jComboBox2ActionPerformed
+
+    private void b1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_b1MouseClicked
+        
+        DaoPlanning daoPl = null;
+            try {
+                daoPl = DaoPlanning.getDAO();
+            } catch (DaoException ex) {
+                Logger.getLogger(InsererF.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        
+        //Verifie qu'un seul créneau est sélectionné
+        if(jTable1.getSelectedRowCount()>1) {
+            jLabel7.setText("Merci de sélectionner un seul créneau horaire");
+            jLabel7.setVisible(true);
+        }
+        
+        else if(jTable1.getSelectedRowCount()<1) {
+            jLabel7.setText("Merci de sélectionner un créneau horaire");
+            jLabel7.setVisible(true);
+        }
+        
+        //Vérifie qu'on planning existe pour ce film (ce concours)
+        else try {
+            if(!daoPl.PlanningExiste(this.titre)) {
+                jLabel7.setText("Aucun planning n'a été créé pour le concours faisant participer ce film");
+                jLabel7.setVisible(true);
+            }
+            //Récupération des choix
+            else {
+                DaoProjection daoP = DaoProjection.getDAO();
+                
+                String salle= (String)jComboBox3.getSelectedItem();
+                String type_proj = (String)jComboBox1.getSelectedItem();
+                String date = dateChooserCombo1.getText();
+                String mois = date.substring(3, 5);
+                String jour = date.substring(0,2);
+                String date_sql= "2015-" +mois+ "-" +jour;
+                int ligne = jTable1.getSelectedRow();
+                String heure_choisie = jTable1.getValueAt(ligne, 0).toString() + ":00"; //Ajout des secondes pour le format SQL
+                daoP.insérerProjection(type_proj, salle, date_sql, heure_choisie, this.titre);
+            }
+        } catch (DaoException ex) {
+            Logger.getLogger(InsererF.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
+        
+        
+    }//GEN-LAST:event_b1MouseClicked
+
+    public void afficherCreneaux(String date, Collection<Projection> c, String preference) throws DaoException {
+        
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        model.setRowCount(0);
+        /*OPÉRATION SUR TIME:
+        Time t = Time.valueOf("09:00:00");
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(t);
+        cal.add(Calendar.MINUTE, 123);
+        System.out.println(cal.getTime().toString().substring(11, 16));*/
+        
+        DaoFilm daoF = DaoFilm.getDAO();
+        
+        //Test des contraintes de nombres de film par jour
+        if (daoF.testNbFilmParJour(this.titre, date)) {
+            
+            
+            int indiceTab = 0;
+            Projection[] tab_proj = new Projection[15];
+                    
+            for (Projection p : c) {
+                tab_proj[indiceTab] = p;
+                indiceTab++;
+            }
+            
+            indiceTab=0;
+            
+            System.out.println(c.size());
+            //Si il y a au moins une projection dejà prevue ce jour la
+            if (c.size()>0) {
+                    
+                    while(indiceTab<14) {
+
+                        Time debut_creneau_libre = null;
+                        Time fin_creneau_libre = null;
+                        Time heure_possible;
+                        
+                        Time fin_default = null;
+                        Time debut_default = null;
+                        
+                        Calendar cal_possible=Calendar.getInstance();
+                        Calendar cal_debut = Calendar.getInstance();
+                        Calendar cal_fin = Calendar.getInstance();
+
+                        
+                        //Toute la journée
+                        if (preference.equals("Aucune")){
+                            debut_default=Time.valueOf("09:00:00");
+                            fin_default=Time.valueOf("23:00:00");
+                        }
+
+
+                     //Matinée    
+                     else if (preference.equals("Matinée")) {
+                         debut_default=Time.valueOf("09:00:00");
+                         fin_default=Time.valueOf("12:00:00");
+                        
+                    }
+                     
+                     //Après-midi
+                    else if (preference.equals("Après_midi")) {
+                        debut_default=Time.valueOf("13:00:00");
+                        fin_default=Time.valueOf("19:00:00");
+                        
+                    }
+                    
+                    //Soirée
+                    else if (preference.equals("Soirée")) {
+                        debut_default=Time.valueOf("19:00:00");
+                        fin_default=Time.valueOf("23:00:00");
+                        
+                    }
+                    
+                    
+                        //Si c'est le premier creneau on verifie si il est à la première heure ou non
+                        if (indiceTab==0) {
+                         if(!tab_proj[indiceTab].getHeure().equals(debut_default)) {
+                             debut_creneau_libre=debut_default;
+                         }
+                         else {
+                             debut_creneau_libre=HeureFin(tab_proj[indiceTab]);
+                         }
+                     }
+                     
+                     else {
+                         debut_creneau_libre=HeureFin(tab_proj[indiceTab-1]);
+                         
+                         if(tab_proj[indiceTab]==null) {
+                             fin_creneau_libre=fin_default;
+                         }
+                         
+                         //Si c'était la dernière projection
+                         else{
+                             fin_creneau_libre = Time.valueOf(tab_proj[indiceTab].getHeure());
+                             indiceTab=14;
+                         }
+                     }
+                        
+                cal_debut.setTime(debut_creneau_libre);
+                cal_fin.setTime(fin_creneau_libre);
+                int duree_creneau = Math.round(Math.abs((cal_debut.getTimeInMillis()- cal_fin.getTimeInMillis())/ONE_MINUTE_IN_MILLIS));
+
+                int i = 0;
+                //Tant que l'on peut encore placer le film au moins une fois dans le créneau
+                //Ici, i nous donnera le nombre de fois que l'on peut placer le film dans le créneau
+                while (duree_creneau>this.duree) {
+                    duree_creneau = duree_creneau - this.duree;
+                    i++;
+                }
+
+                heure_possible = debut_creneau_libre;
+                cal_possible.setTime(heure_possible);
+
+                //Ajout à la jTable des créneaux possibles
+                for ( int j=0; j<i;j++) { 
+                    model.addRow(new Object[]{cal_debut.getTime().toString().substring(11, 16)});
+                    cal_debut.add(Calendar.MINUTE, this.duree);
+                }
+
+
+                    indiceTab++;
+                }
+            }
+            
+            
+            //Si il n'y a pas de projections prévues ce jour là
+            else {
+                
+                Time debut_creneau_libre = null;
+                Time fin_creneau_libre = null;
+                Time heure_possible;
+                Calendar cal_possible=Calendar.getInstance();
+                Calendar cal_debut = Calendar.getInstance();
+                Calendar cal_fin = Calendar.getInstance();
+                
+                 if (preference.equals("Aucune")) {
+                     debut_creneau_libre= Time.valueOf("09:00:00");
+                     fin_creneau_libre=Time.valueOf("23:00:00");
+                 }
+                 
+                 else if (preference.equals("Matinée")) {
+                     debut_creneau_libre= Time.valueOf("09:00:00");
+                     fin_creneau_libre=Time.valueOf("12:00:00");
+                 }
+                 
+                 else if (preference.equals("Après-midi")) {
+                     debut_creneau_libre= Time.valueOf("13:00:00");
+                     fin_creneau_libre=Time.valueOf("19:00:00");
+                 }
+                 
+                 else if (preference.equals("Soirée")) {
+                     debut_creneau_libre= Time.valueOf("19:00:00");
+                     fin_creneau_libre=Time.valueOf("23:00:00");
+                 }
+                 
+                cal_debut.setTime(debut_creneau_libre);
+                cal_fin.setTime(fin_creneau_libre);
+                int duree_creneau = Math.round(Math.abs((cal_debut.getTimeInMillis()- cal_fin.getTimeInMillis())/ONE_MINUTE_IN_MILLIS));
+                
+                System.out.println("debut_creneau =" + debut_creneau_libre);
+                System.out.println("fin_creneau =" + fin_creneau_libre);
+                System.out.println("duree_creneau =" + duree_creneau);
+                
+                int i = 0;
+                //Tant que l'on peut encore placer le film au moins une fois dans le créneau
+                //Ici, i nous donnera le nombre de fois que l'on peut placer le film dans le créneau
+                while (duree_creneau>this.duree) {
+                    duree_creneau = duree_creneau - this.duree;
+                    i++;
+                }
+                System.out.println("i = " +i);
+
+                heure_possible = debut_creneau_libre;
+                cal_possible.setTime(heure_possible);
+
+                //Ajout à la jTable des créneaux possibles
+                for ( int j=0; j<i;j++) { 
+                    model.addRow(new Object[]{cal_debut.getTime().toString().substring(11, 16)});
+                    cal_debut.add(Calendar.MINUTE, this.duree);
+                }
+            }
+            
+            
+        }
+        else {
+            jLabel7.setVisible(true);
+        }
+    }
+    
+    //Retourne l'heure de fin d'une projection
+    public Time HeureFin(Projection p) {
+        Time t = Time.valueOf(p.getHeure());
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(t);
+        cal.add(Calendar.MINUTE, p.getDuree());
+        Time t1 = Time.valueOf(cal.getTime().toString().substring(11, 19));
+        return t1;
+    }
+    
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -260,6 +701,7 @@ public class InsererF extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 new InsererF().setVisible(true);
             }
@@ -279,6 +721,8 @@ public class InsererF extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JLabel reduce;

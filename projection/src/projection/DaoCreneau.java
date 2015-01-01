@@ -7,8 +7,11 @@ package projection;
 
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  *
@@ -64,6 +67,37 @@ public class DaoCreneau {
            rs.next();
            String jour = rs.getString("jour");
            return jour;
+        }
+        
+        catch (SQLException ex) {
+               throw new DaoException("Impossible d'ouvrir une connexion", ex); 
+        }
+    }
+    
+    //Insère un nouveau créneau dans la table
+    public void create(String heure, int id_planning, String jour) throws DaoException {
+        
+        try {
+            String insert = "insert into CRENEAU (heure_debut, id_planning, jour) values('"+heure+"',"+id_planning+""
+                    + ",'"+jour+"')";
+
+            PreparedStatement PrepStat = this.connect.prepareStatement(insert);
+            PrepStat.executeUpdate();
+            
+            
+        } catch (SQLException ex) {
+            throw new DaoException("Impossible d'ouvrir une connexion", ex); 
+        }
+    }
+    
+    public String getHeure(int id) throws DaoException {
+        try {
+            String recherche_heure="Select heure_debut from CRENEAU where id="+id;
+            ResultSet rs = this.connect.createStatement( ResultSet.TYPE_SCROLL_INSENSITIVE, 
+                                                         ResultSet.CONCUR_UPDATABLE).
+                                                        executeQuery(recherche_heure);
+           rs.next();
+           return rs.getString("heure_debut");
         }
         
         catch (SQLException ex) {

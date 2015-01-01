@@ -1,6 +1,14 @@
 
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
+import javax.swing.table.DefaultTableModel;
+import projection.DaoException;
+import projection.DaoPlanning;
+import projection.Planning;
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -16,9 +24,23 @@ public class Creer extends javax.swing.JFrame {
     /**
      * Creates new form Creer
      */
-    public Creer() {
+    public Creer() throws DaoException {
         initComponents();
         this.setLocationRelativeTo(null);
+        DaoPlanning daoP = DaoPlanning.getDAO();
+        Collection<String> col;
+        col = new ArrayList();
+        col = daoP.PlanningCrees();
+        
+        //Enleve le nom des concours pur lesquels un planning a déjà été créé de la ComboBox
+        for (String s : col) {
+            for (int i = 0; i<jComboBox1.getItemCount(); i++){
+                 if(jComboBox1.getItemAt(i).equals(s)) {
+                     jComboBox1.removeItemAt(i);
+                 }
+                 
+            }
+        }
     }
 
     /**
@@ -32,7 +54,6 @@ public class Creer extends javax.swing.JFrame {
 
         b1 = new javax.swing.JLabel();
         b2 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jComboBox1 = new javax.swing.JComboBox();
         reduce = new javax.swing.JLabel();
@@ -46,6 +67,9 @@ public class Creer extends javax.swing.JFrame {
 
         b1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/valider_default.png"))); // NOI18N
         b1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                b1MouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 b1MouseEntered(evt);
             }
@@ -69,13 +93,9 @@ public class Creer extends javax.swing.JFrame {
         });
         getContentPane().add(b2, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 370, 40, 50));
 
-        jTextField1.setFont(new java.awt.Font("Titillium", 0, 14)); // NOI18N
-        jTextField1.setText("Nom du planning");
-        getContentPane().add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 190, 350, 30));
-
         jLabel1.setFont(new java.awt.Font("Titillium", 0, 18)); // NOI18N
-        jLabel1.setText("Concours:");
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 250, 80, 20));
+        jLabel1.setText("Selectionner le concours pour lequel le planning sera créé:");
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 170, 430, 20));
 
         jComboBox1.setFont(new java.awt.Font("Titillium", 0, 14)); // NOI18N
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Long métrage", "Court métrage", "Hors-série", "Un certain regard" }));
@@ -85,7 +105,7 @@ public class Creer extends javax.swing.JFrame {
                 jComboBox1ActionPerformed(evt);
             }
         });
-        getContentPane().add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 242, 150, 30));
+        getContentPane().add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 200, 150, 30));
 
         reduce.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/reduire2_default.png"))); // NOI18N
         reduce.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -179,6 +199,18 @@ public class Creer extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_b2MouseClicked
 
+    //Création d'un nouveau planning
+    private void b1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_b1MouseClicked
+        Planning p = new Planning(jComboBox1.getSelectedItem().toString());
+        try {
+            DaoPlanning daoP = DaoPlanning.getDAO();
+            daoP.create(p);
+        } catch (DaoException ex) {
+            Logger.getLogger(Creer.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }//GEN-LAST:event_b1MouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -209,7 +241,11 @@ public class Creer extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Creer().setVisible(true);
+                try {
+                    new Creer().setVisible(true);
+                } catch (DaoException ex) {
+                    Logger.getLogger(Creer.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }
@@ -221,7 +257,6 @@ public class Creer extends javax.swing.JFrame {
     private javax.swing.JComboBox jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JLabel reduce;
     // End of variables declaration//GEN-END:variables
 }

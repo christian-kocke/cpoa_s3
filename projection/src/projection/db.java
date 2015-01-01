@@ -25,11 +25,12 @@ import java.util.logging.Logger;
  * @author Christian
  */
 public class db  {
-    private static final db instance = new db();
+    private static final db instance;
     private Connection connection = null;
     
     private db() throws IOException {
         
+        new db();
         Properties props = new Properties();
         URL urlFichierProp = ConfigConnection.class.getResource("fichier_propriete.properties");
         BufferedInputStream bis;
@@ -37,7 +38,7 @@ public class db  {
         try {
           bis = new BufferedInputStream(urlFichierProp.openStream());
           props.load(bis);
-          String name = props.getProperty("name");
+          String name = props.getProperty("driver");
                 
           Class.forName(name);
 

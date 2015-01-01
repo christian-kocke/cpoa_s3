@@ -9,11 +9,6 @@ import javax.swing.table.DefaultTableModel;
 import projection.DaoException;
 import projection.DaoFilm;
 import projection.Film;
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
 /**
  *
@@ -30,6 +25,7 @@ public class ChoixF extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         jTable1.setShowVerticalLines(false);
         jTable1.setColumnSelectionAllowed(false);
+        jLabel5.setVisible(false);
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
         DaoFilm daof = DaoFilm.getDAO();
         Collection <Film> col = new ArrayList();
@@ -48,6 +44,7 @@ public class ChoixF extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLabel5 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         b1 = new javax.swing.JLabel();
         b3 = new javax.swing.JLabel();
@@ -69,6 +66,11 @@ public class ChoixF extends javax.swing.JFrame {
         setPreferredSize(new java.awt.Dimension(791, 578));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        jLabel5.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(255, 51, 51));
+        jLabel5.setText("Merci de sélectionner un seul film");
+        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 423, -1, -1));
+
         jLabel1.setText("Recherche:");
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(114, 74, -1, -1));
 
@@ -84,7 +86,7 @@ public class ChoixF extends javax.swing.JFrame {
                 b1MouseExited(evt);
             }
         });
-        getContentPane().add(b1, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 430, 120, 50));
+        getContentPane().add(b1, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 450, 120, 50));
 
         b3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/afficherP_default.png"))); // NOI18N
         b3.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -98,7 +100,7 @@ public class ChoixF extends javax.swing.JFrame {
                 b3MouseExited(evt);
             }
         });
-        getContentPane().add(b3, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 450, 170, 30));
+        getContentPane().add(b3, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 470, 170, 30));
 
         b2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/retourM_default.png"))); // NOI18N
         b2.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -112,7 +114,7 @@ public class ChoixF extends javax.swing.JFrame {
                 b2MouseExited(evt);
             }
         });
-        getContentPane().add(b2, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 450, 170, 30));
+        getContentPane().add(b2, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 470, 170, 30));
 
         jLabel3.setText("Durée:");
         getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 74, -1, -1));
@@ -301,9 +303,36 @@ public class ChoixF extends javax.swing.JFrame {
     }//GEN-LAST:event_b1MouseExited
 
     private void b1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_b1MouseClicked
-        InsererF insF = new InsererF();
-        insF.setVisible(rootPaneCheckingEnabled);
-        this.dispose();
+        
+        //Verifie qu'un seul film est sélectionné
+        if(jTable1.getSelectedRowCount()>1) {
+            jLabel5.setText("Merci de sélectionner un seul film");
+            jLabel5.setVisible(true);
+        }
+        
+        else if(jTable1.getSelectedRowCount()<1) {
+            jLabel5.setText("Merci de sélectionner un film");
+            jLabel5.setVisible(true);
+        }
+        
+        else {
+            InsererF f = null;
+            int ligne = jTable1.getSelectedRow();
+
+            String film_choisi = jTable1.getValueAt(ligne, 0).toString();
+            int duree = (int)jTable1.getValueAt(ligne, 1);
+            
+            
+            try {
+                f = new InsererF(film_choisi,duree);
+            } catch (DaoException ex) {
+                Logger.getLogger(ChoixF.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            //Transmet le nom du film sélectionné
+            f.setVisible(true);
+            f.setVisible(rootPaneCheckingEnabled);
+            this.dispose();
+        }
     }//GEN-LAST:event_b1MouseClicked
 
     private void b2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_b2MouseClicked
@@ -334,15 +363,28 @@ public class ChoixF extends javax.swing.JFrame {
 
     private void b3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_b3MouseClicked
         ProjectionP p = null;
-        try {
-            int ligne = jTable1.getSelectedRow();
-            String film_choisi = jTable1.getValueAt(ligne, 0).toString();
-            p = new ProjectionP(film_choisi);
-            //Transmet le nom du film sélectionné
-            p.setVisible(true);
-        } 
-        catch (DaoException ex) {
-            Logger.getLogger(ChoixF.class.getName()).log(Level.SEVERE, null, ex);
+        
+        if(jTable1.getSelectedRowCount()>1) {
+            jLabel5.setText("Merci de sélectionner un seul film");
+            jLabel5.setVisible(true);
+        }
+        
+        else if(jTable1.getSelectedRowCount()<1) {
+            jLabel5.setText("Merci de sélectionner un film");
+            jLabel5.setVisible(true);
+        }
+        
+        else {
+            try {
+                int ligne = jTable1.getSelectedRow();
+                String film_choisi = jTable1.getValueAt(ligne, 0).toString();
+                p = new ProjectionP(film_choisi);
+                //Transmet le nom du film sélectionné
+                p.setVisible(true);
+            } 
+            catch (DaoException ex) {
+                Logger.getLogger(ChoixF.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }//GEN-LAST:event_b3MouseClicked
 
@@ -506,6 +548,7 @@ public class ChoixF extends javax.swing.JFrame {
                 } catch (DaoException ex) {
                     Logger.getLogger(ChoixF.class.getName()).log(Level.SEVERE, null, ex);
                 }
+                
             }
         });
     }
@@ -521,6 +564,7 @@ public class ChoixF extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField1;

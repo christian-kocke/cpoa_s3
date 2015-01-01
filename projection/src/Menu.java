@@ -18,7 +18,15 @@ public class Menu extends javax.swing.JFrame {
 
     /**
      * Creates new form Menu
+     * @param nom
      */
+    public Menu(String nom) {
+        initComponents();
+        this.setLocationRelativeTo(null);
+        jLabel1.setText(nom+" (Connecté)");
+        jLabel1.setVisible(true);
+    }
+    
     public Menu() {
         initComponents();
         this.setLocationRelativeTo(null);
@@ -33,6 +41,7 @@ public class Menu extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLabel1 = new javax.swing.JLabel();
         b1 = new javax.swing.JLabel();
         b2 = new javax.swing.JLabel();
         b3 = new javax.swing.JLabel();
@@ -46,6 +55,11 @@ public class Menu extends javax.swing.JFrame {
         setMinimumSize(new java.awt.Dimension(791, 578));
         setUndecorated(true);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(51, 153, 0));
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 40, 790, 20));
 
         b1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/creer_default.png"))); // NOI18N
         b1.setText("jLabel1");
@@ -227,7 +241,12 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_b4MouseExited
 
     private void b1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_b1MouseClicked
-        Creer c = new Creer();
+        Creer c = null;
+        try {
+            c = new Creer();
+        } catch (DaoException ex) {
+            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+        }
         c.setVisible(rootPaneCheckingEnabled);
         this.dispose();
     }//GEN-LAST:event_b1MouseClicked
@@ -291,6 +310,7 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JLabel b4;
     private javax.swing.JLabel b5;
     private javax.swing.JLabel close;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel reduce;
     // End of variables declaration//GEN-END:variables
