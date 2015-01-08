@@ -89,6 +89,30 @@ public class DaoPlanning {
                 }
     }
     
+    public boolean PlanningExiste2(String concours) throws DaoException {
+        
+        try {
+            String recherche_planning = "Select COUNT(id) from PLANNING where id_concours in (Select id_concours from"
+                    + " CONCOURS where libelle ='"+concours+"')";
+             ResultSet rs = this.connect.createStatement( ResultSet.TYPE_SCROLL_INSENSITIVE, 
+                                                         ResultSet.CONCUR_UPDATABLE).
+                                                        executeQuery(recherche_planning);
+             rs.next();
+             
+             if(rs.getInt(1)<=0) {
+                 return false;
+             }
+             
+             else {
+                 return true;
+             }
+        }
+        
+        catch (SQLException ex) {
+                    throw new DaoException("Impossible d'ouvrir une connexion", ex); 
+                }
+    }
+    
     //Insertion d'un nouveau planning dans la table
     public void create(Planning p) throws DaoException {
         

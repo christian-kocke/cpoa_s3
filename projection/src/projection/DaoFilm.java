@@ -36,7 +36,7 @@ public class DaoFilm {
                 return dao;
     }
     
-    //On récupere ici une liste de tous les films pas encore placés
+    //On récupere ici une liste de tous les films
     public Collection<Film> filmAPlacer() throws DaoException {
                 try {
                     String findFilmAPlacer = "Select * From FILM";
@@ -68,6 +68,7 @@ public class DaoFilm {
                     if (concours.equals("Toutes")) {
                          findFilmAPlacer = "Select * From FILM where duree " + duree;
                     }
+                    
                     else {
                         String recherche_id_concours = "Select id from CONCOURS where libelle = '" +concours+ "'";
                         rs = this.connect.createStatement( ResultSet.TYPE_SCROLL_INSENSITIVE, 
@@ -172,6 +173,28 @@ public class DaoFilm {
                                                         executeQuery(recherche);
             rs.next();
             return rs.getInt("id");
+        }
+        
+        catch(SQLException ex) {
+                    throw new DaoException("Impossible d'ouvrir une connexion", ex); 
+                }
+    }
+    
+    //Retourne vraie si la projection offcielle d'un film est deja prevue
+    public boolean dejaPlace(String titre) throws DaoException {
+        try{
+            int id_film = idFilm(titre);
+            
+            String recherche = "Select COUNT(id) from PROJECTION where id_film="+id_film+" and id_type=1";
+            ResultSet rs = this.connect.createStatement( ResultSet.TYPE_SCROLL_INSENSITIVE, 
+                                                         ResultSet.CONCUR_UPDATABLE).
+                                                        executeQuery(recherche);
+            rs.next();
+            if (rs.getInt(1)>=1){
+                return true;
+            }
+            
+            return false;
         }
         
         catch(SQLException ex) {

@@ -82,4 +82,34 @@ public class DaoSalle {
         }
     }
     
+    public Collection<Salle> salleParConcours(String concours) throws DaoException {
+        try {
+            String recherche_salle="Select id from CONCOURS where libelle='"+concours+"'";
+            ResultSet rs = this.connect.createStatement( ResultSet.TYPE_SCROLL_INSENSITIVE, 
+                                                         ResultSet.CONCUR_UPDATABLE).
+                                                        executeQuery(recherche_salle);
+            rs.next();
+            
+            int id_concours = rs.getInt("id");
+            recherche_salle="Select * from SALLE where id_concours="+id_concours;
+            rs = this.connect.createStatement( ResultSet.TYPE_SCROLL_INSENSITIVE, 
+                                                         ResultSet.CONCUR_UPDATABLE).
+                                                        executeQuery(recherche_salle);
+            
+            Collection<Salle> col;
+            col = new ArrayList();
+            
+            while (rs.next()) {
+                    col.add(new Salle(rs.getInt("id"),rs.getString("nom")));
+            }
+                    
+                    
+            return col;
+        }
+        
+        catch (SQLException ex) {
+               throw new DaoException("Impossible d'ouvrir une connexion", ex); 
+        }
+    }
+    
 }

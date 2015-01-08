@@ -42,7 +42,7 @@
       </Events>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-          <AbsoluteConstraints x="240" y="370" width="160" height="50"/>
+          <AbsoluteConstraints x="270" y="380" width="160" height="50"/>
         </Constraint>
       </Constraints>
     </Component>
@@ -59,7 +59,7 @@
       </Events>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-          <AbsoluteConstraints x="190" y="370" width="40" height="50"/>
+          <AbsoluteConstraints x="220" y="380" width="40" height="50"/>
         </Constraint>
       </Constraints>
     </Component>
@@ -85,7 +85,7 @@
           <StringArray count="4">
             <StringItem index="0" value="Long m&#xe9;trage"/>
             <StringItem index="1" value="Court m&#xe9;trage"/>
-            <StringItem index="2" value="Hors-s&#xe9;rie"/>
+            <StringItem index="2" value="Hors comp&#xe9;tition"/>
             <StringItem index="3" value="Un certain regard"/>
           </StringArray>
         </Property>

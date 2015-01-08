@@ -4,7 +4,6 @@ import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import projection.DaoException;
 import projection.DaoUser;
-import javax.swing.text.Document;
 
 /*
  * To change this license header, choose License Headers in Project Properties.

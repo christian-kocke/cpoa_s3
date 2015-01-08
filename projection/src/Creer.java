@@ -77,7 +77,7 @@ public class Creer extends javax.swing.JFrame {
                 b1MouseExited(evt);
             }
         });
-        getContentPane().add(b1, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 370, 160, 50));
+        getContentPane().add(b1, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 380, 160, 50));
 
         b2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/retour_default.png"))); // NOI18N
         b2.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -91,14 +91,14 @@ public class Creer extends javax.swing.JFrame {
                 b2MouseExited(evt);
             }
         });
-        getContentPane().add(b2, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 370, 40, 50));
+        getContentPane().add(b2, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 380, 40, 50));
 
         jLabel1.setFont(new java.awt.Font("Titillium", 0, 18)); // NOI18N
         jLabel1.setText("Selectionner le concours pour lequel le planning sera créé:");
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 170, 430, 20));
 
         jComboBox1.setFont(new java.awt.Font("Titillium", 0, 14)); // NOI18N
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Long métrage", "Court métrage", "Hors-série", "Un certain regard" }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Long métrage", "Court métrage", "Hors compétition", "Un certain regard" }));
         jComboBox1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         jComboBox1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -201,13 +201,22 @@ public class Creer extends javax.swing.JFrame {
 
     //Création d'un nouveau planning
     private void b1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_b1MouseClicked
+        GenererP Gp = null;
+        try {
+            Gp = new GenererP(jComboBox1.getSelectedItem().toString());
+        } catch (DaoException ex) {
+            Logger.getLogger(Creer.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        Gp.setVisible(true);
+        this.dispose();
+         /*Ancienne methode 
         Planning p = new Planning(jComboBox1.getSelectedItem().toString());
         try {
             DaoPlanning daoP = DaoPlanning.getDAO();
             daoP.create(p);
         } catch (DaoException ex) {
             Logger.getLogger(Creer.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        }*/
         
     }//GEN-LAST:event_b1MouseClicked
 

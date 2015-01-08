@@ -447,13 +447,13 @@ public class InsererF extends javax.swing.JFrame {
             jLabel7.setVisible(true);
         }
         
-        //Vérifie qu'on planning existe pour ce film (ce concours)
+        //Vérifie qu'un planning existe pour ce film (ce concours)
         else try {
             if(!daoPl.PlanningExiste(this.titre)) {
                 jLabel7.setText("Aucun planning n'a été créé pour le concours faisant participer ce film");
                 jLabel7.setVisible(true);
             }
-            //Récupération des choix
+            //Récupération des choix et insertion
             else {
                 DaoProjection daoP = DaoProjection.getDAO();
                 
