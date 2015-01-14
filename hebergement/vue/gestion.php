@@ -65,7 +65,7 @@ include_once 'head.php';
 				  <span id="guest"></span>
 				  <button href="#" tabindex="0" class="close" aria-label="Close Alert">&times;</button>
 				</div>
-		        <div class="large-12 large-centered column text-center">
+		        <div class="large-8 large-centered column">
 		            <form action="" data-abide method="post" class="form1" id="form1"> 
 		               <table class="table">
 		               	    <thead>
