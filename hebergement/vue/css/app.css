@@ -42,3 +42,28 @@ dl{
 .container{
 	position: relative;
 }
+.list {
+	list-style: none;
+}
+.hide{
+	visibility: hidden;
+}
+.show{
+	visibility: visible;
+}
+.alert-box .close{
+	padding: 9px 6px 8px;
+}
+
+.profilImage {
+	margin-right: 2em;
+}
+
+.service-list {
+margin-left:25%;
+width:100%;
+}
+
+.button{
+	margin: 0;
+}

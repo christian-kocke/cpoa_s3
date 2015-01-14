@@ -46,8 +46,9 @@ $(document).foundation({
     }
   }
 });
+
 $(document).ready( function () {
-    $('.display').DataTable({
+    $('#table').DataTable({
     	"dom" : 'l<"large-3 column column_filter right">frtip',
     	"oLanguage": {
 				"sEmptyTable": "Aucun VIP doit être placer",
@@ -73,7 +74,7 @@ $(document).ready( function () {
             "type": "POST",
             "dataType": "json",
             "url": "response.php",
-            "data": { action : "display", table : "1" }
+            "data": { action : "display" }
         },
 	    initComplete: function () {
             var api = this.api();
@@ -99,12 +100,68 @@ $(document).ready( function () {
             } );
         }	
     });
-} );
 
 
-// When the document is ready
-$(document).ready(function () {
-	//select logement
+    var data2 = {
+              "action": "display2"
+    };
+    var table2 = $('#table2').DataTable({
+        "dom" : 'lfrtip',
+        "oLanguage": {
+                "sEmptyTable": "Aucun hebergement ne correspond au critères",
+                "sSearch": "Recherche",
+                "sLengthMenu": 'Afficher <select>'+
+                '<option value="10">10</option>'+
+                '<option value="20">20</option>'+
+                '<option value="30">30</option>'+
+                '<option value="40">40</option>'+
+                '<option value="50">50</option>'+
+                '<option value="-1">Tous</option>'+
+                '</select> ',
+            "sInfoFiltered": " - ( filtrer à partir de _MAX_ enregistrements )",
+            "sInfo": "Un total de _TOTAL_ enregistrement(s) afficher (de _START_ à _END_)",
+                "oPaginate": {
+                "sNext": "Suivant",
+                "sPrevious": "Précédent"
+              }
+        },
+        "serverSide": true,
+        "processing": true,
+        "ajax" : {
+            "type": "POST",
+            "dataType": "json",
+            "url": "response.php",
+            "data": (function() {
+                        var data2 = {"action" : "display2"};
+                        var $fields = $(".form1 input");
+                        var isValid;
+                        $fields.each(function() {
+                           if (!$.trim($(this).val())) {
+                               isValid = false;
+                           }
+                        });
+                        if(isValid != false){
+                            $("#start").val($(".form1 input[name=debut]").val());
+                            $("#end").val($(".form1 input[name=fin]").val());
+                            data2 = $(".form1").serialize() + "&" + $.param(data2);
+                        }else{
+                            $.param(data2);
+                        }
+                        return data2;
+                    })
+        }
+    });
+    
+    function isJson(str) {
+        try {
+            JSON.parse(str);
+        } catch (e) {
+            return false;
+        }
+        return true;
+    }
+
+
 	$("#tlogement").change(function() {
 		if($(this).val() == "hotel"){
 			$(".chambre").show();
@@ -143,54 +200,142 @@ $(document).ready(function () {
     }).data('datepicker');
     var checkout = $('#dpd2').fdatepicker({
         onRender: function (date) {
-            return date.valueOf() <= checkin.date.valueOf() ? 'disabled' : '';
+            return date.valueOf() < checkin.date.valueOf() ? 'disabled' : '';
         }
     }).on('changeDate', function (ev) {
         checkout.hide();
     }).data('datepicker');
 
-	
-});
 
-$(document).ready(function() {
-    var table = $('.display').DataTable();
- 
-    $('.display tbody').on( 'click', 'tr', function () {
+
+    
+    var table1 = $('#table').DataTable();
+    var table2 = $('#table2').DataTable();
+    $('button.n1').hide();
+    $('#table tbody').on( 'click', 'tr', function () {
         if ( $(this).hasClass('selected') ) {
             $(this).removeClass('selected');
+            $('button.n1').hide();
         }
         else {
-            table.$('tr.selected').removeClass('selected');
+            table1.$('tr.selected').removeClass('selected');
             $(this).addClass('selected');
+            $('button.n1').show();
+        }
+    } );
+
+    // selection table final
+    $('button.p').hide();
+    $('#table2 tbody').on( 'click', 'tr', function () {
+        if ( $(this).hasClass('selected') ) {
+            $(this).removeClass('selected');
+            $('button.p').hide();
+        }
+        else {
+            table2.$('tr.selected').removeClass('selected');
+            $(this).addClass('selected');
+            $('button.p').show();
         }
     } );
  
-    $('#button').click( function () {
-        table.row('.selected').remove().draw( false );
-    } );
-} );
 
-$(document).ready(function() {
+ 
+    $('button.n1').click( function () {
+        $("#guest").html("Veuillez spécifier les informations ci-dessous pour l'inviter <strong id='guest'>"+table1.cell('.selected', 0).data()+"</strong>");
+    } );
+
+
+
 	$(".sub-nav dd").click(function(){
 		$(this).addClass("active");
 		$(this).siblings().toggleClass("active", false);
+        var current = "."+$(this).children("a").attr("id");
+        $(current).siblings().hide(0, function(){
+            $(current).addClass("large-centered large-5");
+            $(current).siblings().removeClass("large-centered large-5");
+        });
+        $(current).show();
 	});
-});
+    $("button.n2").hide();
+    // test si le formulaire est vide
+    var $fields = $(".form1 input, select");
+    $fields.change(function(){
+        var isValid;
+        $fields.each(function() {
+           if (!$.trim($(this).val())) {
+               isValid = false;
+           }
+        });
+        if(isValid != false){
+            $("button.n2").show();
+        }else{
+            $("button.n2").hide();
+        }  
+    });
+    $("ul.list").each(function() {
+        $(this).load("response.php", { "action" : "service", "categorie" : $(this).attr('id') }, function(responseText){
+            $(this).html(responseText.replace(/\"/g, ""));
+        });
+    });
 
-$(document).ready(function() {
+
+
 	$(".next").click(function(){
         var current = parseInt($(this).val())-1;
 		$(".step"+current).hide("slide", {direction : "left"}, 600);
 		$(".step"+(current+1)).hide("slide", {direction : "right"}, 50, function(){
 			$(".step"+(current+1)).css("visibility", "visible");
 		});
-		$(".step"+(current+1)).show("slide", {direction : "right"}, 550);
+		$(".step"+(current+1)).show("slide", {direction : "right"}, 600);
 	});
 	$(".previous").click(function(){
 		var current = parseInt($(this).val())+1;
 		$(".step"+current).hide("slide", {direction : "right"}, 600);
-		$(".step"+(current-1)).show("slide", {direction : "left"}, 550);
+		$(".step"+(current-1)).show("slide", {direction : "left"}, 600);
 	})
+    
+    $("#form1").on("submit", function(){
+        table2.ajax.reload();
+        return false;
+    });
+
+    $("#table2 tbody").on("click", "button.reveal", function() {
+        var id = $(this).val();
+        $('#myModal').foundation('reveal', 'open', {
+            url: 'response.php',
+            type: 'POST',
+            data: {action: 'displayModal', id: id},
+            dataFilter: function(data) {
+                return data.replace(/\"/g, "");
+            },
+        });
+    });
+
+    $('#myModal').on("click", "a", function () {
+        field = $(this).attr("href");
+        if($(field).hasClass("active")){
+            $(field).removeClass("active");
+        }else{
+            $(field).addClass("active");
+            $("content.active").removeClass('active');
+        }
+    });
+
+    $("#table").on("click", "tr", function() {
+        if($(this).hasClass('selected')){
+            $("#nom").val(table1.cell('.selected', 0).data());
+        }else{
+            $("#nom").val("");
+        }
+    });
+
+    $("#table2").on("click", "tr", function() {
+        if($(this).hasClass('selected')){
+            $("#id").val($(this).children("td").children("button.button").val());
+        }else{
+            $("#id").val("");
+        }
+    });
 });
 
 

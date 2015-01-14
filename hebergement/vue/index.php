@@ -1,3 +1,36 @@
+<?php
+require_once '../core/init.php';
+
+$user = new user();
+// Validation des champ pour la connection
+if(input::exists()) { // test si la variable $_POST est set
+    if(token::check(input::get('token_login'))) { // verifie que le token du formulaire est equivalent au token dans la variable session de l'utilisateur
+        $validation = new validation(); // nouvelle instance de validation
+        $validation = $validation->check($_POST, array( // validation des champs
+            'login_username' => array('required' => true, 'error' => 'the username', 'numeric' => false), // critères de validation du champ username
+            'login_password' => array('required' => true, 'error' => 'the password') // critères de validation du champ password
+        ));
+        if($validation->passed()) { // si les champs sont valider
+            $user = new user(); // nouvelle instance utilisateur
+            $remember = (input::get('remember') === 'on') ? true : false; // on regarde si l'utilisateur veut être retenue dans un cookie
+            $login = $user->login(input::get('login_username'), input::get('login_password'), $remember); // connection de l'utilisateur
+
+            if($login) { // si la connection à été effectuer
+            	redirect::to('index.php');
+            } else {
+                session::flash('login', array('connection failed')); // sinon on notifie l'utilisateur que la connection a échoué
+            }
+        } else {
+            session::flash('login', $validation->errors()); // si la validation n'a pas réussit on affiche les erreurs
+        }
+    }
+}
+if($user->hasPermission("responsable1")){ // si l'utilisateur est admin
+	redirect::to('gestion.php'); // redirection a la page d'accueil
+}elseif($user->hasPermission("responsable2")){
+	redirect::to("ajout_service.php");
+}
+?>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -30,28 +63,19 @@
 			</ul>
 			<section class="top-bar-section">
 		    <!-- Right Nav Section -->
-			    <ul class="right">
-			      <li class="active"><a href="#">Right Button Active</a></li>
-			      <li class="has-dropdown">
-			        <a href="#">Right Button Dropdown</a>
-			        <ul class="dropdown">
-			          <li><a href="#">First link in dropdown</a></li>
-			          <li class="active"><a href="#">Active link in dropdown</a></li>
-			        </ul>
-			      </li>
-			    </ul>
+			   
 		  	</section>
 		</nav>
 	</header>
 	<body>
 		<div class="row ">
-			<form action="" class="large-6 large-centered columns">
+			<form action="" method="post" class="large-6 large-centered columns">
 				<fieldset>
 					<legend>Connexion</legend>
 						<div class="row">
-							<div class="large-6 large-centered column"><input type="text" placeholder="nom d'utilisateur"></div>
-							<div class="large-6 large-centered column"><input type="password" placeholder="mot de passe"></div>
-							<div class="large-3 large-centered column"><input type="submit" value="connexion" class="button tiny"></div>
+							<div class="large-6 large-centered column"><input type="text" name="login_username" placeholder="nom d'utilisateur"></div>
+							<div class="large-6 large-centered column"><input type="password" name="login_password" placeholder="mot de passe"></div>
+							<div class="large-6 large-centered column text-center"><input type="hidden" name="token_login" value="<?php echo token::generate(); ?>"/><input type="submit" value="connexion" class="button tiny"></div>
 						</div>
 				</fieldset>
 			</form>

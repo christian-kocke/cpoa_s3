@@ -6,6 +6,9 @@
 
 package projection;
 
+import java.io.BufferedInputStream;
+import java.io.IOException;
+import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -13,6 +16,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -24,10 +28,18 @@ public class db {
     private static final db instance = new db();
     private Connection connection = null;
     
-    private db() {
+    private db() throws IOException {
+        
+        Properties props = new Properties();
+        URL urlFichierProp = ConfigConnection.class.getResource("fichier_propriete.properties");
+        BufferedInputStream bis;
+        
         try {
-
-                Class.forName("com.mysql.jdbc.Driver");
+          bis = new BufferedInputStream(urlFichierProp.openStream());
+          props.load(bis);
+          String name = props.getProperty("name");
+                
+          Class.forName(name);
 
         } catch (ClassNotFoundException e) {
 
@@ -35,9 +47,14 @@ public class db {
 
         }
         try {
+                bis = new BufferedInputStream(urlFichierProp.openStream());
+                props.load(bis);
+                String driver = props.getProperty("driver");
+                String url = props.getProperty("url");
+                String utilisateur = props.getProperty("utilisateur");
+                String mdp = props.getProperty("mdp");
                 connection = DriverManager.getConnection(
-                                "jdbc:mysql://iutdoua-webetu.univ-lyon1.fr/p1301074", "p1301074",
-                                "188145");
+                                driver, utilisateur,mdp);
 
         } catch (SQLException e) {
                

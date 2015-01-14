@@ -29,7 +29,7 @@ class user {
     }
 
     public function create($fields = array()) {
-        if(!$this->_db->insert('users', $fields)) {
+        if(!$this->_db->insert('USERS', $fields)) {
             throw new Exception('There was a problem creating an account.');
         }
     }
@@ -40,7 +40,7 @@ class user {
             $id = $this->data()->id;
         }
 
-        if(!$this->_db->update('users', $id, $fields)){
+        if(!$this->_db->update('USERS', $id, $fields)){
             throw new Exception('There was a problem updating');
         }
     }
@@ -48,7 +48,7 @@ class user {
     public function find($user = null) {
         if($user) {
             $field = (is_numeric($user)) ? 'id' : 'username';
-            $data = $this->_db->get('users', array($field, '=', $user));
+            $data = $this->_db->get('USERS', array($field, '=', $user));
 
             if($data->count() == 1) {
                 $this->_data = $data->first();
@@ -69,10 +69,10 @@ class user {
 
                     if($remember){
                         $hash = hash::unique();
-                        $hashCheck = $this->_db->get('users_session', array('user_id', '=', $this->data()->id));
+                        $hashCheck = $this->_db->get('USERS_SESSION', array('user_id', '=', $this->data()->id));
 
                         if(!$hashCheck->count()){
-                            $this->_db->insert('users_session', array(
+                            $this->_db->insert('USERS_SESSION', array(
                                 'user_id' => $this->data()->id,
                                 'hash' => $hash
                                 ));
@@ -92,7 +92,7 @@ class user {
 
     public function hasPermission($key){
         if($this->isLoggedIn()){
-            $group = $this->_db->get('groups', array('id', '=', $this->data()->group));
+            $group = $this->_db->get('GROUPS', array('id', '=', $this->data()->group));
             if($group->count()){
                 $permissions = json_decode($group->first()->permissions, true);
                 if($permissions[$key] === 1){
@@ -109,7 +109,7 @@ class user {
 
     public function logout(){
 
-        $this->_db->delete('users_session', array('user_id', '=', $this->data()->id));
+        $this->_db->delete('USERS_SESSION', array('user_id', '=', $this->data()->id));
         cookie::delete(config::get('remember/cookie_name'));
         session::delete($this->_sessionName);
         session::delete('basket');

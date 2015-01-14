@@ -13,7 +13,7 @@ class validation {
             foreach($rules as $rule => $rule_value) {
                 $value = trim($source[$item]);
                 if($rule === 'required' && empty($value)) {
-                    $this->addError("{$items[$item]['error']} has to be specified");
+                    $this->addError("{$items[$item]['error']} doit être spécifié");
                 } else if(!empty($value)){
                     switch($rule) {
                         case 'min' :
