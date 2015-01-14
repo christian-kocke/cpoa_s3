@@ -2,6 +2,24 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+<<<<<<< HEAD
         <group/>
+=======
+        <group>
+            <file>file:/C:/Users/Aïssa/Documents/cpoa_s3/projection/src/projection/DaoUser.java</file>
+            <file>file:/C:/Users/Aïssa/Documents/cpoa_s3/projection/src/projection/DaoPlanning.java</file>
+            <file>file:/C:/Users/Aïssa/Documents/cpoa_s3/projection/src/projection/DaoFilm.java</file>
+            <file>file:/C:/Users/Aïssa/Documents/cpoa_s3/projection/src/ProjectionP.java</file>
+            <file>file:/C:/Users/Aïssa/Documents/cpoa_s3/projection/src/Authentification.java</file>
+            <file>file:/C:/Users/Aïssa/Documents/cpoa_s3/projection/src/projection/DaoCreneau.java</file>
+            <file>file:/C:/Users/Aïssa/Documents/cpoa_s3/projection/src/Menu.java</file>
+            <file>file:/C:/Users/Aïssa/Documents/cpoa_s3/projection/src/projection/Projection.java</file>
+            <file>file:/C:/Users/Aïssa/Documents/cpoa_s3/projection/src/InsererF.java</file>
+            <file>file:/C:/Users/Aïssa/Documents/cpoa_s3/projection/src/ChoixF.java</file>
+            <file>file:/C:/Users/Aïssa/Documents/cpoa_s3/projection/src/projection/Creneau.java</file>
+            <file>file:/C:/Users/Aïssa/Documents/cpoa_s3/projection/src/projection/DaoProjection.java</file>
+            <file>file:/C:/Users/Aïssa/Documents/cpoa_s3/projection/src/Creer.java</file>
+        </group>
+>>>>>>> FETCH_HEAD
     </open-files>
 </project-private>

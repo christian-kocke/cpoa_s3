@@ -1,5 +1,9 @@
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
+import projection.DaoException;
+import projection.DaoUser;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -29,6 +33,8 @@ public class Authentification extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLabel1 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
         jPasswordField1 = new javax.swing.JPasswordField();
         close = new javax.swing.JLabel();
@@ -40,11 +46,26 @@ public class Authentification extends javax.swing.JFrame {
         setUndecorated(true);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 51, 51));
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 388, 280, -1));
+
+        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(255, 51, 51));
+        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel4.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 453, 280, -1));
+
+        jTextField1.setHorizontalAlignment(javax.swing.JTextField.LEFT);
         jTextField1.setText("Utilisateur");
+        jTextField1.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
         jTextField1.setSelectionColor(new java.awt.Color(153, 153, 153));
         getContentPane().add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(253, 360, 292, 24));
 
-        jPasswordField1.setText("jPasswordField1");
+        jPasswordField1.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        jPasswordField1.setText("mdpsf");
         jPasswordField1.setSelectionColor(new java.awt.Color(153, 153, 153));
         getContentPane().add(jPasswordField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(253, 425, 292, 24));
 
@@ -151,9 +172,55 @@ public class Authentification extends javax.swing.JFrame {
     }//GEN-LAST:event_reduceMouseExited
 
     private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
-        Menu m = new Menu();
-        m.setVisible(rootPaneCheckingEnabled);
-        this.dispose();
+        
+        jLabel4.setVisible(false);
+        jLabel1.setVisible(false);
+        String user = jTextField1.getText();
+        String mdp = jPasswordField1.getText();
+        
+        if (user.equals("")) {
+            jLabel1.setText("Merci d'entrer un nom d'utilisateur");
+            jLabel1.setVisible(true);
+        }
+        if (mdp.equals("")){
+            jLabel4.setText("Merci d'entrer un mot de passe");
+            jLabel1.setVisible(true);
+        }
+        
+        DaoUser daoU = null;
+        try {
+            daoU = DaoUser.getDAO();
+        } catch (DaoException ex) {
+            Logger.getLogger(Authentification.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        try {
+            String test = daoU.login(user,mdp);
+            
+            if (test.equals("OK")) {
+                Menu m = new Menu(user);
+                m.setVisible(rootPaneCheckingEnabled);
+                this.dispose();
+            }
+            
+            else if (test.equals("Utilisateur non autorisé")){
+                jLabel1.setText(test);
+                jLabel1.setVisible(true);
+            }
+            
+            else if (test.equals("Ce nom d'utilisateur n'existe pas")){
+                jLabel1.setText(test);
+                jLabel1.setVisible(true);
+            }
+            
+            else if (test.equals("Mot de passe incorrect")){
+                jLabel4.setText(test);
+                jLabel4.setVisible(true);
+            }
+            
+        } catch (DaoException ex) {
+            Logger.getLogger(Authentification.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jLabel3MouseClicked
 
     /**
@@ -193,8 +260,10 @@ public class Authentification extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel close;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JPasswordField jPasswordField1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JLabel reduce;

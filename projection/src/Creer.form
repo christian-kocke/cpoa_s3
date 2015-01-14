@@ -36,12 +36,13 @@
         </Property>
       </Properties>
       <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="b1MouseClicked"/>
         <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="b1MouseEntered"/>
         <EventHandler event="mouseExited" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="b1MouseExited"/>
       </Events>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-          <AbsoluteConstraints x="240" y="370" width="160" height="50"/>
+          <AbsoluteConstraints x="270" y="380" width="160" height="50"/>
         </Constraint>
       </Constraints>
     </Component>
@@ -58,20 +59,7 @@
       </Events>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-          <AbsoluteConstraints x="190" y="370" width="40" height="50"/>
-        </Constraint>
-      </Constraints>
-    </Component>
-    <Component class="javax.swing.JTextField" name="jTextField1">
-      <Properties>
-        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Titillium" size="14" style="0"/>
-        </Property>
-        <Property name="text" type="java.lang.String" value="Nom du planning"/>
-      </Properties>
-      <Constraints>
-        <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-          <AbsoluteConstraints x="80" y="190" width="350" height="30"/>
+          <AbsoluteConstraints x="220" y="380" width="40" height="50"/>
         </Constraint>
       </Constraints>
     </Component>
@@ -80,11 +68,11 @@
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Titillium" size="18" style="0"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Concours:"/>
+        <Property name="text" type="java.lang.String" value="Selectionner le concours pour lequel le planning sera cr&#xe9;&#xe9;:"/>
       </Properties>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-          <AbsoluteConstraints x="80" y="250" width="80" height="20"/>
+          <AbsoluteConstraints x="80" y="170" width="430" height="20"/>
         </Constraint>
       </Constraints>
     </Component>
@@ -97,7 +85,7 @@
           <StringArray count="4">
             <StringItem index="0" value="Long m&#xe9;trage"/>
             <StringItem index="1" value="Court m&#xe9;trage"/>
-            <StringItem index="2" value="Hors-s&#xe9;rie"/>
+            <StringItem index="2" value="Hors comp&#xe9;tition"/>
             <StringItem index="3" value="Un certain regard"/>
           </StringArray>
         </Property>
@@ -112,7 +100,7 @@
       </Events>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-          <AbsoluteConstraints x="160" y="242" width="150" height="30"/>
+          <AbsoluteConstraints x="80" y="200" width="150" height="30"/>
         </Constraint>
       </Constraints>
     </Component>

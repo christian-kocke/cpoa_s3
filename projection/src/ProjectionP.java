@@ -1,6 +1,16 @@
 
 
+import java.util.ArrayList;
+import java.util.Collection;
 import javax.swing.ImageIcon;
+import javax.swing.table.DefaultTableModel;
+import projection.DaoCreneau;
+import projection.DaoException;
+import projection.DaoProjection;
+import projection.DaoSalle;
+import projection.DaoType;
+import projection.Film;
+import projection.Projection;
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -15,10 +25,29 @@ public class ProjectionP extends javax.swing.JFrame {
 
     /**
      * Creates new form ProjectionP
+     * @param titre
      */
-    public ProjectionP() {
+    public ProjectionP(String titre) throws DaoException {
         initComponents();
         this.setLocationRelativeTo(null);
+        DaoProjection daoP = DaoProjection.getDAO();
+        
+        Collection <Projection> col = new ArrayList();
+        col = daoP.ProjectionPrevues(titre);
+        
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        DaoSalle daoS = DaoSalle.getDAO();
+        DaoType daoT = DaoType.getDAO();
+        DaoCreneau daoC = DaoCreneau.getDAO();
+        
+        for (Projection p : col) {
+                model.addRow(new Object[]{daoT.nomType(p.getId_type()),daoC.date(p.getId_premier_creneau()),
+                daoC.heureDebut(p.getId_premier_creneau()),daoS.nomSalle(p.getId_salle())});
+            }
+    }
+
+    private ProjectionP() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     /**
@@ -87,10 +116,7 @@ public class ProjectionP extends javax.swing.JFrame {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
                 "Type de projection", "Date", "Heure", "Salle"
@@ -176,7 +202,7 @@ public class ProjectionP extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
+       java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new ProjectionP().setVisible(true);
             }
